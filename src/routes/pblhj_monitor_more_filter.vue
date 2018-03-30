@@ -15,35 +15,24 @@
 <div class="p-y">
     <div class="padding" v-show="list.length">
         <table class="table table-hover table-condensed">
-            <thead>
-            <tr>
-            <th>温度最大值</th>
-            <th>温度最小值</th>
-            <th>压力最大值</th>
-            <th>压力最小值</th>
-            <th>升温时间</th>
-            <th>开始时间</th>
-            <th>结束时间</th>
-            </tr>
-            </thead>
             <tbody>
             <tr v-for="i in list">
-            <td v-text="maxTemp"></td>
-            <td v-text="minTemp"></td>
-            <td v-text="maxPress"></td>
-            <td v-text="minPress"></td>
-            <td v-text="swTime"></td>
-            <td v-text="startTimeData"></td>
-            <td v-text="endTimeData"></td>
+              <td><span class="p-r">温度最大值: </span><span class="text-danger" v-text="maxTemp"></span></td>
+              <td><span class="p-r">温度最小值: </span><span class="text-danger" v-text="minTemp"></span></td>
+              <td><span class="p-r">压力最大值: </span><span class="text-danger" v-text="maxPress"></span></td>
+              <td><span class="p-r">压力最小值: </span><span class="text-danger" v-text="minPress"></span></td>
+              <td><span class="p-r">升温时间: </span><span class="text-danger" v-text="swTime"></span></td>
+              <td><span class="p-r">开始时间: </span><span class="text-danger" v-text="startTimeData"></span></td>
+              <td><span class="p-r">结束时间: </span><span class="text-danger" v-text="endTimeData"></span></td>
             </tr>
             </tbody>
         </table>
     </div>
     <div :style="{zIndex:showChart?100:-1000,position:'relative'}" class="" >
-        <div :class="'lhjmain '+'lhjmain'+no" :id="'lhjmain-wd'+no" style="height:100px;" ></div>
+        <div :class="'lhjmain '+'lhjmain'+no" :id="'lhjmain-wd'+no" style="height:110px;" ></div>
     </div>
     <div :style="{zIndex:showChart?100:-1000,position:'relative'}" class="" >
-        <div :class="'lhjmain '+'lhjmain'+no" :id="'lhjmain-lhyl'+no" style="height:100px;" ></div>
+        <div :class="'lhjmain '+'lhjmain'+no" :id="'lhjmain-lhyl'+no" style="height:110px;" ></div>
     </div>  
 </div>
 </template>
