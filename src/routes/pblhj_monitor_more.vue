@@ -26,6 +26,9 @@
 .p-t-sm {
   padding-top: 0.5em;
 }
+.p-t-xs {
+  padding-top: 0.3em;
+}
 .m-t-xs {
   margin-top: 0.3em;
 }
@@ -43,7 +46,7 @@
                                 <h4 class="p-x-sm" v-text="`任务号: ${tId}`"></h4>
                             </div>
                             <div class="col-xs-9 no-print">
-                                <div class="row">
+                                <div class="row p-t-xs">
                                     <div class="col-xs-4">
                                         <span><strong>操作员：</strong></span>
                                         <select @change="switchData" class="form-control input-sm" v-model="operator">
