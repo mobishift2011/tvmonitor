@@ -1,0 +1,274 @@
+[
+  {
+    "title": "生产管理",
+    "icon": "glyphicon-tasks",
+    "show": true,
+    "collapsed": true,
+    "children": [
+      {
+        "path": "/allplan",
+        "title": "所有计划",
+        "show": true
+      },
+      {
+        "path": "/prodplan",
+        "title": "生产计划",
+        "show": true
+      },
+      {
+        "path": "/childplan",
+        "title": "子任务计划",
+        "show": true
+      },
+      {
+        "path": "/prodprod",
+        "title": "产品工艺",
+        "show": true
+      },
+      {
+        "path": "/prodcheck",
+        "title": "产品校对",
+        "show": true
+      },
+      {
+        "path": "/proddispatch",
+        "title": "产品调度",
+        "show": true
+      },
+      {
+        "path": "/prodgroup",
+        "title": "产品班组",
+        "show": true
+      },
+      {
+        "path": "/prodpick",
+        "title": "产品领料",
+        "show": true
+      },
+      {
+        "path": "/prodissue",
+        "title": "产品发料",
+        "show": true
+      },
+      {
+        "path": "/prodtest",
+        "title": "材料检验",
+        "show": true
+      },
+      {
+        "path": "/prodproce",
+        "title": "工序步骤",
+        "show": true
+      },
+      {
+        "path": "/procecheck",
+        "title": "工艺互检",
+        "show": true
+      },
+      {
+        "path": "/procetest",
+        "title": "工艺检验",
+        "show": true
+      }
+    ]
+  },
+  {
+    "title": "工艺管理",
+    "icon": "glyphicon-blackboard",
+    "show": true,
+    "collapsed": true,
+    "children": [
+      {
+        "path": "/procelibrary",
+        "title": "工艺库",
+        "show": true
+      },
+      {
+        "path": "/procelibrarycheck",
+        "title": "工艺校对",
+        "show": true
+      },
+      {
+        "path": "/procelibraryquota",
+        "title": "工艺定额",
+        "show": true
+      },
+      {
+        "path": "/procelibrarymanage",
+        "title": "工艺主管",
+        "show": true
+      }
+    ]
+  },
+  {
+    "title": "模具管理",
+    "icon": "glyphicon-hdd",
+    "show": true,
+    "collapsed": true,
+    "children": [
+      {
+        "path": "/mould",
+        "title": "模具列表",
+        "show": true
+      },
+      {
+        "path": "/mouldcheck",
+        "title": "新增模具校对",
+        "show": true
+      },
+      {
+        "path": "/mouldapply",
+        "title": "模具入库申请",
+        "show": true
+      },
+      {
+        "path": "/mouldstate",
+        "title": "模具状态校对",
+        "show": true
+      }
+    ]
+  },
+  {
+    "title":"胶料管理",
+    "icon":"glyphicon-modal-window",
+    "show": true,
+    "collapsed": true,
+    "children":[
+      {
+        "path": "/jiaoliao",
+        "title": "胶料库",
+        "show": true
+      },
+      {
+        "path": "/jiaoliaotest",
+        "title": "胶料试模申请",
+        "show": true
+      },
+      {
+        "path": "/jiaoliaocancel",
+        "title": "胶料退库申请",
+        "show": true
+      },
+      {
+        "path": "/jiaoliaocheck",
+        "title": "胶料入库校对",
+        "show": true
+      },
+      {
+        "path": "/jiaoliaostatecheck",
+        "title": "胶料状态校对",
+        "show": true
+      }
+    ]
+  },
+  {
+    "title": "实时监控",
+    "icon": "glyphicon-tasks",
+    "show": true,
+    "collapsed": true,
+    "children": [
+      {
+        "path": "/wsdmonitor",
+        "title": "温湿度实时曲线",
+        "show": true
+      },
+      {
+        "path": "/wsdhistorymonitor",
+        "title": "温湿度历史曲线",
+        "show": true
+      },
+      {
+        "path": "/pblhjstate/1",
+        "title": "平板硫化机设备1状态",
+        "show": true
+      },
+      {
+        "path": "/pblhjstate/2",
+        "title": "平板硫化机设备2状态",
+        "show": true
+      },
+      {
+        "path": "/pblhjstate/3",
+        "title": "平板硫化机设备3状态",
+        "show": true
+      },
+      {
+        "path": "/pblhjstate/4",
+        "title": "平板硫化机设备4状态",
+        "show": true
+      },  
+      {
+        "path": "/pblhjstate/5",
+        "title": "平板硫化机设备5状态",
+        "show": true
+      },
+      {
+        "path": "/pblhjstate/6",
+        "title": "平板硫化机设备6状态",
+        "show": true
+      },
+      {
+        "path": "/pblhjstate/7",
+        "title": "平板硫化机设备7状态",
+        "show": true
+      },
+      {
+        "path": "/pblhjstate/8",
+        "title": "平板硫化机设备8状态",
+        "show": true
+      },
+      {
+        "path": "/hxstate/1",
+        "title": "烘箱设备1号仪表状态",
+        "show": true
+      },
+      {
+        "path": "/hxstate/2",
+        "title": "烘箱设备2号仪表状态",
+        "show": true
+      },
+      {
+        "path": "/hxstate/3",
+        "title": "烘箱设备3号仪表状态",
+        "show": true
+      }
+    ]
+  },
+
+  {
+    "title": "车间管理",
+    "icon": "glyphicon-scale",
+    "show": true,
+    "collapsed": true,
+    "children": [
+      {
+        "path": "/workshop",
+        "title": "车间管理",
+        "show": true
+      },
+      {
+        "path": "/workgroup",
+        "title": "班组管理",
+        "show": true
+      }
+    ]
+  },
+  {
+    "title": "权限管理",
+    "icon": "glyphicon-lock",
+    "show": true,
+    "collapsed": true,
+    "children": [
+      {
+        "path": "/permission",
+        "title": "菜单权限",
+        "show": true
+      },
+      {
+        "path": "/workuser",
+        "title": "员工管理",
+        "show": true
+      }
+    ]
+  }
+]

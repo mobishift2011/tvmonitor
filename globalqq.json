@@ -1,0 +1,18 @@
+{
+  "port": "3300",
+  "tokenKey": "abc123",
+  "admin": {
+    "wuId": "12345678",
+    "password": "admin",
+    "wuName": "超级管理员"
+  },
+  "dev_db": "mongodb://127.0.0.1/tvmonitor4",
+  "db": "mongodb://127.0.0.1/tvmonitor4",
+  "isDev": false,
+  "wsd": [
+    {
+      "eqIp": "127.0.0.1",
+      "eqId": 1,
+      "eqPoet":8502
+    }]
+}

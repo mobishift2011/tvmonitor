@@ -1,0 +1,64 @@
+2017-09-24 15:40:19 - Starting D:\Program Files\nodejs\node.exe  --harmony C:\Users\lisheng\AppData\Roaming\npm\node_modules\node-windows\lib\wrapper.js --file D:\ts-monitor\bin\www --log "tsmonitor wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2017-09-24 15:40:19 - Started 32772
+2017-09-24 15:46:20 - Stopping tsmonitor.exe
+2017-09-24 15:46:20 - ProcessKill 32772
+2017-09-24 15:46:20 - Found child process: 11288 Name: conhost.exe
+2017-09-24 15:46:20 - Found child process: 30988 Name: node.exe
+2017-09-24 15:46:20 - Stopping process 11288
+2017-09-24 15:46:20 - Send SIGINT 11288
+2017-09-24 15:46:20 - SIGINT to 11288 failed - Killing as fallback
+2017-09-24 15:46:21 - Stopping process 30988
+2017-09-24 15:46:21 - Send SIGINT 30988
+2017-09-24 15:46:21 - SIGINT to 30988 failed - Killing as fallback
+2017-09-24 15:46:21 - Stopping process 32772
+2017-09-24 15:46:21 - Send SIGINT 32772
+2017-09-24 15:46:21 - SIGINT to 32772 failed - Killing as fallback
+2017-09-24 15:46:21 - Finished tsmonitor.exe
+2017-09-24 15:48:25 - Starting D:\Program Files\nodejs\node.exe  --harmony C:\Users\lisheng\AppData\Roaming\npm\node_modules\node-windows\lib\wrapper.js --file D:\ts-monitor\bin\www --log "tsmonitor wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2017-09-24 15:48:25 - Started 21736
+2017-09-24 15:49:53 - Stopping tsmonitor.exe
+2017-09-24 15:49:53 - ProcessKill 21736
+2017-09-24 15:49:53 - Found child process: 15324 Name: conhost.exe
+2017-09-24 15:49:53 - Found child process: 33524 Name: node.exe
+2017-09-24 15:49:53 - Stopping process 15324
+2017-09-24 15:49:53 - Send SIGINT 15324
+2017-09-24 15:49:53 - SIGINT to 15324 failed - Killing as fallback
+2017-09-24 15:49:53 - Stopping process 33524
+2017-09-24 15:49:53 - Send SIGINT 33524
+2017-09-24 15:49:53 - SIGINT to 33524 failed - Killing as fallback
+2017-09-24 15:49:53 - Stopping process 21736
+2017-09-24 15:49:53 - Send SIGINT 21736
+2017-09-24 15:49:53 - SIGINT to 21736 failed - Killing as fallback
+2017-09-24 15:49:53 - Finished tsmonitor.exe
+2017-09-24 15:51:37 - Starting D:\Program Files\nodejs\node.exe  --harmony C:\Users\lisheng\AppData\Roaming\npm\node_modules\node-windows\lib\wrapper.js --file D:\ts-monitor\bin\www --log "tsmonitor wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2017-09-24 15:51:38 - Started 34632
+2017-09-24 16:30:12 - Stopping tsmonitor.exe
+2017-09-24 16:30:12 - ProcessKill 34632
+2017-09-24 16:30:12 - Found child process: 33832 Name: conhost.exe
+2017-09-24 16:30:12 - Found child process: 32208 Name: node.exe
+2017-09-24 16:30:12 - Stopping process 33832
+2017-09-24 16:30:12 - Send SIGINT 33832
+2017-09-24 16:30:12 - SIGINT to 33832 failed - Killing as fallback
+2017-09-24 16:30:12 - Stopping process 32208
+2017-09-24 16:30:12 - Send SIGINT 32208
+2017-09-24 16:30:12 - SIGINT to 32208 failed - Killing as fallback
+2017-09-24 16:30:12 - Stopping process 34632
+2017-09-24 16:30:12 - Send SIGINT 34632
+2017-09-24 16:30:12 - SIGINT to 34632 failed - Killing as fallback
+2017-09-24 16:30:12 - Finished tsmonitor.exe
+2017-09-24 16:54:47 - Starting D:\Program Files\nodejs\node.exe  --harmony C:\Users\lisheng\AppData\Roaming\npm\node_modules\node-windows\lib\wrapper.js --file D:\ts-monitor\bin\www --log "tsmonitor wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2017-09-24 16:54:47 - Started 23756
+2017-09-24 16:55:11 - Stopping tsmonitor.exe
+2017-09-24 16:55:11 - ProcessKill 23756
+2017-09-24 16:55:11 - Found child process: 21988 Name: conhost.exe
+2017-09-24 16:55:11 - Found child process: 23448 Name: node.exe
+2017-09-24 16:55:11 - Stopping process 21988
+2017-09-24 16:55:11 - Send SIGINT 21988
+2017-09-24 16:55:11 - SIGINT to 21988 failed - Killing as fallback
+2017-09-24 16:55:11 - Stopping process 23448
+2017-09-24 16:55:11 - Send SIGINT 23448
+2017-09-24 16:55:11 - SIGINT to 23448 failed - Killing as fallback
+2017-09-24 16:55:11 - Stopping process 23756
+2017-09-24 16:55:11 - Send SIGINT 23756
+2017-09-24 16:55:11 - SIGINT to 23756 failed - Killing as fallback
+2017-09-24 16:55:11 - Finished tsmonitor.exe
