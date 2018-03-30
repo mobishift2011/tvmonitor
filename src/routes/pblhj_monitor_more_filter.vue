@@ -163,7 +163,7 @@ export default {
         _this.endTimeData = last(timeData);
 
         _lines.forEach((line, index) => {
-          line.name = `模次:${this.mId}-${line.name}`;
+          line.name = `模次号:${this.mId}-${line.name}`;
           let lines = [line];
           let preSeriesData = getDataListByKeys(data, lines);
           let series = Object.keys(preSeriesData).map(v => preSeriesData[v]);
