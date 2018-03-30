@@ -32,6 +32,20 @@
 .m-t-xs {
   margin-top: 0.3em;
 }
+.m-r-lg {
+  margin-right: 3em;
+}
+.inline {
+  display: inline-block;
+}
+.to-print {
+  display: none;
+}
+@media print {
+  .to-print {
+    display: initial;
+  }
+}
 </style>
 
 <template>
@@ -41,11 +55,22 @@
             <div class="operation-wrapper mould-detail lhj-form">
                 <div class="row">
                     <div class="col-xs-12">
-                        <div class="row">
+                        <div class="to-print">
+                            <h4 class="p-x-sm inline m-r-lg" v-text="`任务号: ${tId}`"></h4>
+                            <span class="inline-block m-r-lg">
+                                <strong>操作员：</strong>
+                                <strong>{{operator}}</strong>
+                            </span>
+                            <span class="inline-block">
+                                <strong>模具号：</strong>
+                                <strong>{{mould}}</strong>
+                            </span>
+                        </div>
+                        <div class="row no-print">
                             <div class="col-xs-3">
                                 <h4 class="p-x-sm" v-text="`任务号: ${tId}`"></h4>
                             </div>
-                            <div class="col-xs-9 no-print">
+                            <div class="col-xs-9">
                                 <div class="row p-t-xs">
                                     <div class="col-xs-4">
                                         <span><strong>操作员：</strong></span>
