@@ -7,9 +7,9 @@ const io = require('socket.io')(http)
 const moment = require('moment')
 // const mongoose = require('mongoose')
 const _ = require('lodash')
-const logger = require('./lib/utils/log4js').socketio();
+const logger = require('./lib/utils/log4js').socketio()
 
-let firstUseFlag = -1 //启停标志
+let firstUseFlag = -1 // 启停标志
 let secondUseFlag = -1
 let thirdUseFlag = -1
 let fourthUseFlag = -1
@@ -22,7 +22,7 @@ let PblhjStateDataModel = require('./lib/models/pblhj_state_data.js')
 let PblhjStateLastDataModel = require('./lib/models/pblhj_state_lastdata.js')
 let PblhjStateModel = require('./lib/models/pblhj_state.js')
 let workUserModel = require('./lib/models/work_user.js')
-let ProdProceService = require('./lib/services/prod_proce'); 
+let ProdProceService = require('./lib/services/prod_proce')
 
 init()
 
@@ -57,25 +57,27 @@ function init () {
     // 接收客户端数据 进行处理
     socket.on(serverID, function (eqId, json) {
       logger.info('recieveData4Client', eqId, json)
-      if(json){
+      if (json) {
         recieveHandle(eqId, json)
-      }else{
+      } else {
         // 不带json认为是首次连接
         socket.$eqId = eqId
         logger.info(socket.$eqId, '- 上线 - ', moment().format('h:mm:ss a'))
-        PblhjStateModel.update({eqId: socket.$eqId}, {connectState: 1}).exec()
-        .then(function () {
-          logger.info('更新连接状态')
-        })
-        .catch(function (err) {
-          logger.info('更新连接状态失败', err)
-        })
+        // 不再使用与客户端的连接状态
+        // PblhjStateModel.update({eqId: socket.$eqId}, {connectState: 1}).exec()
+        // .then(function () {
+        //   logger.info('更新连接状态')
+        // })
+        // .catch(function (err) {
+        //   logger.info('更新连接状态失败', err)
+        // })
       }
     })
 
     socket.on('disconnect', function () {
       logger.info(socket.$eqId, '- 离线 - ', moment().format('h:mm:ss a'))
-      PblhjStateModel.update({eqId: socket.$eqId}, {connectState: 0}).exec()
+      // 不再使用与客户端的连接状态，离线就设置为2
+      PblhjStateModel.update({eqId: socket.$eqId}, {connectState: 2}).exec()
         .then(function () {
           logger.info('更新连接状态')
         })
@@ -95,11 +97,9 @@ function init () {
   .then(function (doc) {
     logger.info('客户端配置共：', doc.length, '个')
     doc.forEach(function (v) {
-
       setTimeout(function () {
         sendConfig2Client(v)
-      }, 10*1000)
-
+      }, 10 * 1000)
     })
   })
   .catch(function (err) {
@@ -131,18 +131,30 @@ function sendConfig2Client (document) {
 
 /**
  * 服务器端接收数据处理
- * 
- * @param {String} eqId 
- * @param {String} json 
+ *
+ * @param {String} eqId
+ * @param {String} json
  */
-function recieveHandle(eqId, json) {
-  // console.log(eqId,':',json)
+function recieveHandle (eqId, json) {
+  console.log(eqId, ':', json)
   let o = JSON.parse(json)
-  logger.info('硫化标志与启停标志：',o.lhbz,o.firstUse,o.secondUse,o.thirdUse,o.fourthUse)
+  // 临时添加modbusConnectState的解释
+  if (o.modbusConnectState != undefined) {
+    console.log('o.modbusConnectState:', o.modbusConnectState)
+    PblhjStateModel.update({eqId: eqId}, {connectState: o.modbusConnectState}).exec()
+    .then(function () {
+      logger.info('更新连接状态')
+    })
+    .catch(function (err) {
+      logger.info('更新连接状态失败', err)
+    })
+    return
+  }
 
+  logger.info('硫化标志与启停标志：', o.lhbz, o.firstUse, o.secondUse, o.thirdUse, o.fourthUse)
 
   // 更新实时数据
-  PblhjStateLastDataModel.update({lhjState:o.lhjState},o,{upsert: true}).exec()
+  PblhjStateLastDataModel.update({lhjState: o.lhjState}, o, {upsert: true}).exec()
   .then(function () {
     logger.info('更新最新数据', moment().format('h:mm:ss a'))
   })
@@ -151,7 +163,7 @@ function recieveHandle(eqId, json) {
     console.error(err)
   })
 
-  if(o.lhbz === 1){//硫化标志为1时才保存历史数据
+  if (o.lhbz === 1) { // 硫化标志为1时才保存历史数据
     PblhjStateDataModel(o).save()
     .then(function () {
       logger.info('保存历史数据成功', moment().format('h:mm:ss a'))
@@ -161,47 +173,47 @@ function recieveHandle(eqId, json) {
       console.error(err)
     })
   }
-  //启停标志出现变化时，工序号更新为启停+1
-  if((o.firstUse === 1 || o.firstUse === 2) && firstUseFlag !== o.firstUse){
+  // 启停标志出现变化时，工序号更新为启停+1
+  if ((o.firstUse === 1 || o.firstUse === 2) && firstUseFlag !== o.firstUse) {
     firstUseFlag = o.firstUse
-    updateLHJStateNProce(o.firstTask.tId,firstUseFlag+1)
+    updateLHJStateNProce(o.firstTask.tId, firstUseFlag + 1)
   }
-  if((o.secondUse === 1 || o.secondUse === 2) && secondUseFlag !== o.secondUse){
+  if ((o.secondUse === 1 || o.secondUse === 2) && secondUseFlag !== o.secondUse) {
     secondUseFlag = o.secondUse
-    updateLHJStateNProce(o.secondTask.tId,secondUseFlag+1)
+    updateLHJStateNProce(o.secondTask.tId, secondUseFlag + 1)
   }
-  if((o.thirdUse === 1 || o.thirdUse === 2) && thirdUseFlag !== o.thirdUse){
+  if ((o.thirdUse === 1 || o.thirdUse === 2) && thirdUseFlag !== o.thirdUse) {
     thirdUseFlag = o.thirdUse
-    updateLHJStateNProce(o.thirdTask.tId,thirdUseFlag+1)
+    updateLHJStateNProce(o.thirdTask.tId, thirdUseFlag + 1)
   }
-  if((o.fourthUse === 1 || o.fourthUse === 2) && fourthUseFlag !== o.fourthUse){
+  if ((o.fourthUse === 1 || o.fourthUse === 2) && fourthUseFlag !== o.fourthUse) {
     fourthUseFlag = o.fourthUse
-    updateLHJStateNProce(o.fourthTask.tId,fourthUseFlag+1)
+    updateLHJStateNProce(o.fourthTask.tId, fourthUseFlag + 1)
   }
 }
 
 /**
  * 更新工序
- * 
- * @param {String} tId 
- * @param {Number} prodState 
+ *
+ * @param {String} tId
+ * @param {Number} prodState
  */
-function updateLHJStateNProce(tId,prodState) {
+function updateLHJStateNProce (tId, prodState) {
   ProdProceService.updateByCondition({
-    "tId": tId,
-    "sType": 's1'
+    'tId': tId,
+    'sType': 's1'
   }, {
-    "$set": {
-      "prodState": prodState
+    '$set': {
+      'prodState': prodState
     }
-  }) //更新工序状态
- .then(function(res) {
-    logger.info('任务号：',tId,' 更新工序状态 ',prodState)
-  })
+  }) // 更新工序状态
+ .then(function (res) {
+   logger.info('任务号：', tId, ' 更新工序状态 ', prodState)
+ })
   .catch(function (err) {
-    logger.info('更新工序失败',err)
+    logger.info('更新工序失败', err)
   })
 }
-module.exports={
-  sendConfig2Client:sendConfig2Client
+module.exports = {
+  sendConfig2Client: sendConfig2Client
 }
