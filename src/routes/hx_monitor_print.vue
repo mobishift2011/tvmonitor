@@ -210,7 +210,8 @@ export default {
       drawTimer: 0,
       showChart: false,
       startTime: "",
-      endTime: ""
+      endTime: "",
+      operator: "",
     };
   }
 };
