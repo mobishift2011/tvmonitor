@@ -10,7 +10,6 @@
         </div>
         <div  style="display: flex !important;justify-content: center;align-items: center;height: 400px" v-show="!showChart"><h1>二段硫化没开始 </h1></div>
     </div>
-    </div>
 </template>
 
 <script>

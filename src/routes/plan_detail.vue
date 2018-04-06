@@ -149,15 +149,18 @@
         </tbody>
       </table>
     </div>
-    <div class="content-wrapper" v-show="!loading && plan.state >= 6">
+    <div class="content-wrapper no-print" v-show="!loading && plan.state >= 6">
       <div class="operation-wrapper">
         <h1>硫化机历史数据</h1>
         <Pblhj-filter :t-id="plan.tId"></Pblhj-filter>
       </div>
     </div>
-    <div class="content-wrapper">
+    <div class="content-wrapper no-print">
       <div class="operation-wrapper">
-        <h1>二段硫化历史曲线</h1>
+        <div>
+          <button type="button" class="btn btn-primary pull-right" v-link="{path: '/hxmonitorprint/'+plan.tId}">打印</button>
+          <h1>二段硫化历史曲线</h1>
+        </div>
         <hx-monitor :t-id="plan.tId"></hx-monitor>
       </div>
     </div>

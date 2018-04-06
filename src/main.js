@@ -56,6 +56,7 @@ import HxState from './routes/hx_state';
 
 import PblhjMonitor from './routes/pblhj_monitor';
 import HxMonitor from './routes/hx_monitor';
+import HxMonitorPrint from './routes/hx_monitor_print'
 import WsdMonitor from './routes/wsd_monitor';
 import WsdHistoryMonitor from './routes/wsd_history_monitor';
 import pblhjMonitorMore from './routes/pblhj_monitor_more';
@@ -195,6 +196,9 @@ router.map({
      /*  '/hxmonitor': {
         component: HxMonitor
       }, */
+      '/hxmonitorprint/:id': {
+        component: HxMonitorPrint
+      },
       '/wsdmonitor': {
         component: WsdMonitor
       },
