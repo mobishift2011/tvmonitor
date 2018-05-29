@@ -7,6 +7,18 @@
     <h1>模具状态</h1>
     <loading v-show="loading"></loading>
     <div class="content-wrapper" v-show="!loading && list.length">
+      <div class="operation-wrapper row">
+        <div class="col-xs-6">
+        </div>
+        <div class="col-xs-6">
+          <div class="input-group">
+            <input type="text" class="form-control input-sm" placeholder="请输入模具编号或申请人" v-model="q">
+            <span class="input-group-btn">
+              <button class="btn btn-info btn-sm" type="button">搜索</button>
+            </span>
+          </div>
+        </div>
+      </div>
       <table class="table table-hover table-condensed">
         <thead>
         <tr>
@@ -21,13 +33,13 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="i in list">
+        <tr v-for="i in list | filterBy q in '_mId' '_apUser'">
           <th scope="row">{{$index + 1}}</th>
           <td>{{getMouldStateName(i.oldState)}}</td>
           <td>{{getMouldStateName(i.state)}}</td>
           <td>{{getWorkUserName(i.mId.adder)}}</td>
-          <td>{{i.mId.mId}}</td>
-          <td>{{getWorkUserName(i.applyer)}}</td>
+          <td>{{i._mId}}</td>
+          <td>{{i._apUser}}</td>
           <td>{{i.time | moment}}</td>
           <td>
             <div class="btn-group btn-group-xs">
@@ -85,16 +97,31 @@
       ]).then(function (res) {
         this.workUsers = res[0].data;
         this.list = res[1].data;
+        this.list.forEach((item) => {
+          item._mId = item.mId.mId;
+          //{{getWorkUserName(i.applyer)}}
+          item._apUser =(find(this.workUsers, {_id: item.applyer}) || {}).wuName;
+        });
 
         this.loading = false;
       }.bind(this));
+    },
+    filters:{
+      test1:function(value,index){
+        console.log(value,index);
+        if(index % 2){
+          return true;
+        }
+        return false;
+      }
     },
     data(){
       return {
         loading: true,        // 初始化中
         states: MOULD_STATES, // 模具状态
         workUsers: [],        // 所有员工
-        list: []              // 所有数据
+        list: [],              // 所有数据
+        q:''
       }
     }
   }

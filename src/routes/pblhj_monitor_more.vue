@@ -15,6 +15,10 @@
 .p-a-sm {
   padding: 0.5em;
 }
+.p-y {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
 .p-x {
   padding-left: 1em;
   padding-right: 1em;
@@ -37,6 +41,11 @@
 }
 .inline {
   display: inline-block;
+}
+.sign {
+  position: absolute;
+  bottom: 2em;
+  right: 1em;
 }
 .to-print {
   display: none;
@@ -61,9 +70,13 @@
                                 <strong>操作员：</strong>
                                 <strong>{{operator}}</strong>
                             </span>
-                            <span class="inline-block">
-                                <strong>模具号：</strong>
+                            <span class="inline-block m-r-lg">
+                                <strong>模具号ddd：</strong>
                                 <strong>{{mould}}</strong>
+                            </span>
+                            <span class="inline-block">
+                                <strong>产品图号：</strong>
+                                <strong>{{outerMId}}</strong>
                             </span>
                         </div>
                         <div class="row no-print">
@@ -85,6 +98,10 @@
                                             <option value="" selected>--请选择模具号--</option>
                                             <option :value="m" v-for="m in moulds">{{m}}</option>
                                         </select>
+                                    </div>
+                                    <div class="col-xs-4 p-t-xs">
+                                        <strong>产品图号：</strong>
+                                        <strong>{{outerMId}}</strong>
                                     </div>
                                 </div>
                             </div>
@@ -163,6 +180,19 @@
                 <pblhj-monitor-more-filter :no="'5'" v-ref:chart5></pblhj-monitor-more-filter>
             </div>
         </div>
+
+        <div class="sign to-print" v-show="!loading">
+            <div class="p-x pull-right">
+                <span class="inline-block m-r-lg">
+                    <strong>操作者：</strong>
+                    <strong>________________________</strong>
+                </span>
+                <span class="inline-block">
+                    <strong>检验员：</strong>
+                    <strong>________________________</strong>
+                </span>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -223,6 +253,7 @@ export default {
     }
   },
   ready() {
+    this.outerMId = sessionStorage.getItem(`outerMId-${this.tId}`);
     Promise.all([this.$http.get("/api/workusers/field")]).then(
       function(res) {
         this.workUsers = res[0].data;
@@ -240,7 +271,8 @@ export default {
       ybCode: "", // 仪表编号
       list: [], // 列表
       // devices: [],          // 所有设备
-      workUsers: [] // 所有员工
+      workUsers: [], // 所有员工,
+      outerMId: null //产品图号
     };
   }
 };

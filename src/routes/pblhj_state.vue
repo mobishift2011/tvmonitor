@@ -65,7 +65,8 @@
             <input type="button" value="添加" class="btn btn-primary btn-sm glyphicon-edit" @click="popEdit(i)">
             <input type="button" value="模具号选择" class="btn btn-primary btn-sm glyphicon-play" @click="popWrite(i)">
           </template>
-          <input type="button" value="写入" class="btn btn-primary btn-sm glyphicon-edit" @click="write(i)">
+          <!--当 硫化标志=0，本地控制=0，1号启停=2，2号启停=2，3号启停=2，4号启停=2，和通讯状态为1时，才能显示写入按钮 -->
+          <input  v-if="i.lhbz*1==0 && i.bdkz*1==0 && i.firstUse*1==2 && i.secondUse*1==2 && i.thirdUse*1==2 && i.fourthUse*1==2  && i.connectState*1==1" type="button" value="写入" class="btn btn-primary btn-sm glyphicon-edit" @click="write(i)">
             <!--<span  class="glyphicon glyphicon-edit" v-if="i.connectState==1" @click="popEdit(i)"></span>-->
             <!--<span  class="glyphicon glyphicon-play" v-if="i.state==0&&i.connectState==1" @click="popWrite(i)"></span>-->
           </td>
@@ -79,13 +80,16 @@
           <td><strong>有效模腔数</strong></td>
           <td><strong>硫化温度</strong></td>
           <td><strong>模次号</strong></td>
+          <!--
           <td><strong>加热板的温度</strong></td>
+          -->
           <td><strong>启停标识</strong></td>
+          <td></td>
         </tr>
 
         <template v-for="i in list" track-by="$index">
           <tr>
-            <template v-if="i.firstUse">
+            <template v-if="i.firstUse*1==1">
               <!-- <td>2.</td> -->
               <td>{{i.firstTask.tId}}</td>
               <td>{{i.firstTask.mjh}}</td>
@@ -93,12 +97,15 @@
               <td>{{i.firstTask.yxmqs}}</td>
               <td>{{i.wd1}}</td>
               <td>{{i.firstTask.mch}}</td>
+              <!--
               <td>{{i.firstTask.bhgcl}}</td>
+              -->              
               <td>{{i.firstUse}}</td>
+              <td></td>
             </template>
         </tr>
         <tr>
-            <template v-if="i.secondUse">
+            <template v-if="i.secondUse*1==1">
               <!-- <td>2.</td> -->
               <td>{{i.secondTask.tId}}</td>
               <td>{{i.secondTask.mjh}}</td>
@@ -106,12 +113,15 @@
               <td>{{i.secondTask.yxmqs}}</td>
               <td>{{i.wd2}}</td>
               <td>{{i.secondTask.mch}}</td>
+              <!--
               <td>{{i.secondTask.bhgcl}}</td>
+              -->
               <td>{{i.secondUse}}</td>
+              <td></td>
             </template>
         </tr>
         <tr>
-            <template v-if="i.thirdUse">
+            <template v-if="i.thirdUse*1==1">
               <!-- <td>3.</td> -->
               <td>{{i.thirdTask.tId}}</td>
               <td>{{i.thirdTask.mjh}}</td>
@@ -119,12 +129,15 @@
               <td>{{i.thirdTask.yxmqs}}</td>
               <td>{{i.wd3}}</td>
               <td>{{i.thirdTask.mch}}</td>
+              <!--
               <td>{{i.thirdTask.bhgcl}}</td>
+              -->
               <td>{{i.thirdUse}}</td>
+              <td></td>
             </template>
         </tr>
         <tr>
-            <template v-if="i.fourthUse">
+            <template v-if="i.fourthUse*1==1">
               <!-- <td>4.</td> -->
               <td>{{i.fourthTask.tId}}</td>
               <td>{{i.fourthTask.mjh}}</td>
@@ -132,8 +145,11 @@
               <td>{{i.fourthTask.yxmqs}}</td>
               <td>{{i.wd4}}</td>
               <td>{{i.fourthTask.mch}}</td>
+              <!--
               <td>{{i.fourthTask.bhgcl}}</td>
+              -->
               <td>{{i.fourthUse}}</td>
+              <td></td>
             </template>
           </tr>
         </template>
@@ -283,6 +299,8 @@
             <p>  排气压力: <strong>{{modelWrite.pqyl}}</strong>         </p>
              <p>  排气次数: <strong>{{modelWrite.pqcs}}</strong>           </p>
              <p>  升温时间: <strong>{{modelWrite.swsj}}</strong>           </p>
+             <p>  升温补偿时间: <strong>{{modelWrite.swbcz}}</strong>           </p>
+             <p>  升温极限时间: <strong>{{modelWrite.swjxz}}</strong>           </p>
              <p>  硫化时间: <strong>{{modelWrite.lhsj}}</strong>           </p>
              <p>  硫化压力: <strong>{{modelWrite.lhyl}}</strong>           </p>
              <p>  硫化压力差值: <strong>{{modelWrite.lhylcz}}</strong>       </p> 
@@ -343,6 +361,7 @@
         deep: true
       }
     },
+
     methods: {
       selectMId(e, index) {
         var elm = e.target;
@@ -807,6 +826,16 @@
                   this.modalDelShow = false;
                 });
       },
+      findByKey(prodprod,name){
+        var obj = find(prodprod.wpc , {key: name}) ;
+        //console.log(obj);
+        if(obj){
+          return obj.value;
+        }
+
+        return null;
+        
+      },
       popWrite(item){
 
         this.modelWrite = cloneDeep(item);
@@ -818,7 +847,13 @@
         this.tasksWrite=[];
         if (this.prodList.length > 0) {
           var fCId = (find(this.prodList, {tId:this.tIds[0] || ''}) || {}).cId || '';
+
+          console.log(item.tIds[0]);
+
           var prodprod = find(this.prodproces, {tId:item.tIds[0]||'' , sType: 's1'});
+
+          console.log(prodprod);
+
           // console.error(this.prodproces);
           // console.error(prodprod);
           if (!prodprod) {
@@ -830,37 +865,28 @@
                 // console.error(prod);
               if (prod) {
                 prod.wp.forEach( w => { 
+                  //console.log(w.sType);
                   if (w.sType === 's1') {
-                    w.child.forEach( c => { 
-                      if (c.key.trim() == "排气压力") {
-                        this.modelWrite.pqyl = c.value = find(prodprod.wpc , {key: "排气压力"}).value;
-                      }
-                      if (c.key.trim() == "排气次数") {
-                        this.modelWrite.pqcs = c.value = find(prodprod.wpc , {key: "排气次数"}).value;
-                      }
-                      if (c.key.trim() == "升温时间") {
-                        this.modelWrite.swsj = c.value = find(prodprod.wpc , {key: "升温时间"}).value;
-                      }
-                      if (c.key.trim() == "硫化时间") {
-                        this.modelWrite.lhsj = c.value = find(prodprod.wpc , {key: "硫化时间"}).value;
-                      }
-                      if (c.key.trim() == "硫化压力") {
-                        this.modelWrite.lhyl = c.value = find(prodprod.wpc , {key: "硫化压力"}).value;
-                      }
-                      if (c.key.trim() == "硫化压力差值") {
-                        this.modelWrite.lhylcz = c.value  = find(prodprod.wpc , {key: "硫化压力差值"}).value;
-                      } 
-                      if (c.key == "硫化温度") {
+                    var nametokey = {
+                      "排气压力MPa": "pqyl",
+                      "排气次数": "pqcs",
+                      "升温时间%": "swsj",
+                      "升温补偿时间%": "swbcz",
+                      "升温极限时间%": "swjxz",
+                      "硫化时间S": "lhsj",
+                      "硫化压力MPa": "lhyl",
+                      "硫化压力差值MPa": "lhylcz",
+                      "硫化温度℃": "lhwd",
+                      "硫化温度最大值℃": "lhwdzdz",
+                      "硫化温度最小值℃": "lhwdzxz"
+                    };
 
-                        this.modelWrite.lhwd = c.value = find(prodprod.wpc , {key: "硫化温度"}).value;
-                      }      
-                      if (c.key == "硫化温度最大值") {
-                        this.modelWrite.lhwdzdz = c.value = find(prodprod.wpc , {key: "硫化温度最大值"}).value;
-                      }
-                      if (c.key == "硫化温度最小值") {
-                        this.modelWrite.lhwdzxz = c.value = find(prodprod.wpc , {key: "硫化温度最小值"}).value;
-                      }
+                    w.child.forEach( c => { 
+                      this.modelWrite[nametokey[c.key]] = c.value = this.findByKey(prodprod,c.key);    
+                      //console.log(c.key,this.findByKey(prodprod,c.key));            
                     });
+
+
                   }
                 })
                 if (Array.isArray(prod.mould)) {

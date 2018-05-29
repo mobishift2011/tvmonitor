@@ -7,6 +7,16 @@
     <h1>工艺校对</h1>
     <loading v-show="loading"></loading>
     <div class="content-wrapper" v-show="!loading">
+      <div class="operation-wrapper row">
+        <div class="col-xs-offset-6 col-xs-6">
+          <div class="input-group">
+            <input type="text" class="form-control input-sm" placeholder="请输入产品名称、材料牌号或产品图号" v-model="q">
+            <span class="input-group-btn">
+              <button class="btn btn-info btn-sm" type="button">搜索</button>
+            </span>
+          </div>
+        </div>
+      </div>
       <table class="table table-hover table-condensed">
         <thead>
         <tr>
@@ -25,7 +35,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="i in list | filterBy q in 'mId' 'ppName'">
+        <tr v-for="i in list | filterBy q in 'mId' 'ppName' 'cId'">
           <th scope="row">{{$index + 1}}</th>
           <td>{{i.mId}}</td>
           <td>{{i.ppName}}</td>
@@ -93,6 +103,7 @@
         loading: true,        // 初始化中
         workUsers: [],        // 所有员工
         list: [],             // 所有数据
+        q:''
       }
     }
   }

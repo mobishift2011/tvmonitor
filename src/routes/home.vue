@@ -5,6 +5,10 @@
 }
 
 @media print {
+  @page {
+    size: auto; /* auto is the initial value */
+    margin: 0mm; /* this affects the margin in the printer settings */
+  }
   .no-print {
     display: none;
   }

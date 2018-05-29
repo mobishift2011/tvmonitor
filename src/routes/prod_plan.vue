@@ -17,7 +17,7 @@
         </div>
         <div class="col-xs-6">
           <div class="input-group">
-            <input type="text" class="form-control input-sm" placeholder="请输入产品名称或任务单号" v-model="q">
+            <input type="text" class="form-control input-sm" placeholder="请输入产品名称、任务单号或产品图号" v-model="q">
             <span class="input-group-btn">
               <button class="btn btn-info btn-sm" type="button">搜索</button>
             </span>
@@ -42,7 +42,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="i in list | filterBy q in 'tId' 'ppName'">
+        <tr v-for="i in list | filterBy q in 'tId' 'ppName' 'mId'">
           <th scope="row">{{$index + 1}}</th>
           <td>{{i.ppName}}</td>
           <td>{{i.tId}}</td>

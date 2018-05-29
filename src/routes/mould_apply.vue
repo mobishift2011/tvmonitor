@@ -11,6 +11,14 @@
         <div class="col-xs-6">
           <button class="btn btn-primary btn-sm" @click="popEdit()">申 请</button>
         </div>
+        <div class="col-xs-6">
+          <div class="input-group">
+            <input type="text" class="form-control input-sm" placeholder="请输入模具编号、模具名称或者产品图号" v-model="q">
+            <span class="input-group-btn">
+              <button class="btn btn-info btn-sm" type="button">搜索</button>
+            </span>
+          </div>
+        </div>
       </div>
       <table class="table table-hover table-condensed">
         <thead>
@@ -27,7 +35,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="i in list | filterBy q in 'mId' 'mName'">
+        <tr v-for="i in list | filterBy q in 'mId' 'mName' 'mapId'">
           <th scope="row">{{$index + 1}}</th>
           <td>{{i.mId.moldId}}</td>
           <td>{{i.mId.mId}}</td>
@@ -261,6 +269,7 @@
         error: '',                                // 错误信息
         modalDelShow: false,                      // 删除弹窗显示
         delModel: '',                             // 当前删除的model
+        q: ''
       }
     },
     watch: {

@@ -270,6 +270,7 @@
       .then(function (res) {
         this.workUsers = res[0].data;
         this.plan = res[1].data.plan;
+        sessionStorage.setItem(`outerMId-${this.plan.tId}`, this.plan.mId);
 
         // console.error(this.plan);
         this.list = res[1].data.wps;

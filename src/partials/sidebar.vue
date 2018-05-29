@@ -102,8 +102,16 @@
       }
     },
     methods: {
-      toggle(route){
-        route.collapsed = !route.collapsed;
+    //   toggle(route){
+    //     route.collapsed = !route.collapsed;
+    //   },
+      toggle(route){          
+        route.collapsed = route.collapsed ? false : true;
+        !route.collapsed && this.routes.forEach((item, index) => {
+            if (route.title != item.title) {
+                item.collapsed = !route.collapsed;
+            }
+        })
       },
       render(){
         var permission = this.userInfo.permission || {};

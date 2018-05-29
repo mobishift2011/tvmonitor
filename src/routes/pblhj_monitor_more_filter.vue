@@ -29,7 +29,7 @@
         </table>
     </div>
     <div :style="{zIndex:showChart?100:-1000,position:'relative'}" class="" >
-        <div :class="'lhjmain '+'lhjmain'+no" :id="'lhjmain-wd'+no" style="height:110px;" ></div>
+        <div :class="'lhjmain '+'lhjmain'+no" :id="'lhjmain-wd'+no" style="height:110px; width=100%" ></div>
     </div>
     <div :style="{zIndex:showChart?100:-1000,position:'relative'}" class="" >
         <div :class="'lhjmain '+'lhjmain'+no" :id="'lhjmain-lhyl'+no" style="height:110px;" ></div>
@@ -178,33 +178,48 @@ export default {
                 _this.minPress || head(items.data)
               );
             } else {
+              let _maxTemp = Math.max(...items.data);
+              let _minTemp = Math.min(...items.data);
               _this.maxTemp = Math.max(
-                Math.max(...items.data),
+                _maxTemp,
                 _this.maxTemp || head(items.data)
               );
               _this.minTemp = Math.min(
-                Math.min(...items.data),
+                _minTemp,
                 _this.minTemp || head(items.data)
               );
             }
           });
 
+          let gridLeft = "3%";
+          let yAxis = {
+            type: "value",
+            axisLabel: {
+              formatter: "{value}"
+            }
+          };
+          
+          if (line.key !== "lhyl") {
+            gridLeft = "-6.2%";
+            yAxis.max = _this.maxTemp + 2;
+            yAxis.min = _this.minTemp - 5;
+          }
           let option = {
             tooltip: {
               trigger: "axis"
             },
             title: {
-              text: lines.map(item=>item.name),
-              x: 'center',
-              y: 'top',
+              text: lines.map(item => item.name),
+              x: "center",
+              y: "top",
               textStyle: {
                 fontSize: 14,
-                fontWeight: "bold",
-              },
+                fontWeight: "bold"
+              }
             },
             grid: {
-              left: '3%',
-              right: '4%',
+              left: gridLeft,
+              right: "4%",
               top: "20%",
               bottom: "1%",
               containLabel: true
@@ -212,14 +227,11 @@ export default {
             xAxis: {
               type: "category",
               boundaryGap: false,
-              data: timeData
+              data: timeData.map(item => {
+                return moment(item).format("HH:mm");
+              })
             },
-            yAxis: {
-              type: "value",
-              axisLabel: {
-                formatter: "{value}"
-              }
-            },
+            yAxis: yAxis,
             series: series
           };
 

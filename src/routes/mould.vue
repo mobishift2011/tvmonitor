@@ -28,7 +28,7 @@
         </div>
         <div class="col-xs-6">
           <div class="input-group">
-            <input type="text" class="form-control input-sm" placeholder="请输入模具编号或名称" v-model="q">
+            <input type="text" class="form-control input-sm" placeholder="请输入模具编号、模具名称或者产品图号" v-model="q">
             <span class="input-group-btn">
               <button class="btn btn-info btn-sm" type="button">搜索</button>
             </span>
@@ -59,7 +59,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="i in list | filterBy q in 'mId' 'mName'">
+        <tr v-for="i in list | filterBy q in 'mId' 'mName' 'mapId'">
           <th scope="row">{{$index + 1}}</th>
           <td>{{i.moldId}}</td>
           <td>{{i.mId}}</td>

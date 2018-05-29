@@ -7,6 +7,19 @@
     <h1>胶料状态校对</h1>
     <loading v-show="loading"></loading>
     <div class="content-wrapper" v-show="!loading && list.length">
+      <div class="operation-wrapper row">
+        <div class="col-xs-6">
+          <!--<button class="btn btn-primary btn-sm" @click="popEdit()">新 增</button>-->
+        </div>
+        <div class="col-xs-6">
+          <div class="input-group">
+            <input type="text" class="form-control input-sm"  placeholder="请输入名称、材料牌号或者入检批次" v-model="q">
+            <span class="input-group-btn">
+              <button class="btn btn-info btn-sm" type="button">搜索</button>
+            </span>
+          </div>
+        </div>
+      </div>
       <table class="table table-hover table-condensed">
         <thead>
         <tr>
@@ -21,7 +34,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="i in list">
+        <tr v-for="i in list | filterBy q in 'jlName' 'pId' 'rId'">
           <th scope="row">{{$index + 1}}</th>
           <td>{{i.jlId.rId}}</td>
           <td>{{getMouldStateName(i.state)}}</td>
@@ -164,7 +177,8 @@
         model: {},
         modalEditShow: false,
         error: '',
-        list: []              // 所有数据
+        list: [],              // 所有数据
+        q: ''
       }
     }
   }

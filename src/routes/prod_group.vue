@@ -7,6 +7,16 @@
     <h1>产品班组</h1>
     <loading v-show="loading"></loading>
     <div class="content-wrapper" v-show="!loading && list.length">
+      <div class="operation-wrapper row">
+        <div class="col-xs-offset-6 col-xs-6">
+          <div class="input-group">
+            <input type="text" class="form-control input-sm" placeholder="请输入产品名称、任务单号或产品图号" v-model="q">
+            <span class="input-group-btn">
+              <button class="btn btn-info btn-sm" type="button">搜索</button>
+            </span>
+          </div>
+        </div>
+      </div>
       <table class="table table-hover table-condensed">
         <thead>
         <tr>
@@ -27,7 +37,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="i in list">
+        <tr v-for="i in list | filterBy q in 'tId' 'ppName' 'mId'">
           <th scope="row">{{$index + 1}}</th>
           <td>{{i.ppName}}</td>
           <td>{{i.tId}}</td>
@@ -149,7 +159,8 @@
         modalEditShow: false, // 修改弹窗
         model: {},            // 当前数据信息
         workUsers: [],        // 所有员工
-        list: []              // 所有数据
+        list: [],              // 所有数据
+        q:""
       }
     }
   }

@@ -5,6 +5,7 @@
     }
 
     .child-wp {
+      width: 100%;
       input {
         width: 50%;
       }
@@ -14,6 +15,10 @@
         width: 25% !important;
       }
     }
+  }
+
+  .indexw{
+    width: 42px;
   }
 
   .file-item {
@@ -33,7 +38,7 @@
         </div>
         <div class="col-xs-6">
           <div class="input-group">
-            <input type="text" class="form-control input-sm" placeholder="请输入产品图号或名称" v-model="q">
+            <input type="text" class="form-control input-sm" placeholder="请输入产品名称、材料牌号或产品图号" v-model="q">
             <span class="input-group-btn">
               <button class="btn btn-info btn-sm" type="button">搜索</button>
             </span>
@@ -58,7 +63,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="i in list | filterBy q in 'mId' 'ppName'">
+        <tr v-for="i in list | filterBy q in 'mId' 'ppName' 'cId'">
           <th scope="row">{{$index + 1}}</th>
           <td>{{i.mId}}</td>
           <td>{{i.ppName}}</td>
@@ -135,7 +140,7 @@
                 </span>
               </div>
               <div  class="input-group child-wp" v-for="c in w.child" track-by="$index">
-                <span class="input-group-addon">{{$index + 1}}</span>
+                <span class="input-group-addon indexw">{{$index + 1}}</span>
                   <input type="text" class="form-control input-sm" v-model="c.key" placeholder="名称">
                   <input type="number" class="form-control input-sm" v-model="c.value" placeholder="数值">
 
@@ -236,15 +241,17 @@
         if (w.sType === 's1') {
           w.title = '一段硫化';
           w.child = [
-            {key: '排气压力'},
+            {key: '排气压力MPa'},
             {key: '排气次数'},
-            {key: '升温时间'},
-            {key: '硫化时间'},
-            {key: '硫化压力'},
-            {key: '硫化压力差值'},
-            {key: '硫化温度'},
-            {key: '硫化温度最大值'},
-            {key: '硫化温度最小值'}
+            {key: '升温时间%'},
+            {key: '升温补偿值%'},
+            {key: '升温极限值%'},
+            {key: '硫化时间S'},
+            {key: '硫化压力MPa'},
+            {key: '硫化压力差值MPa'},
+            {key: '硫化温度℃'},
+            {key: '硫化温度最大值℃'},
+            {key: '硫化温度最小值℃'}
           ];
         }
 

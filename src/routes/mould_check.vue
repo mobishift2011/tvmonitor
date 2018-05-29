@@ -7,6 +7,18 @@
     <h1>模具校对</h1>
     <loading v-show="loading"></loading>
     <div class="content-wrapper" v-show="!loading && list.length">
+      <div class="operation-wrapper row">
+        <div class="col-xs-6">
+        </div>
+        <div class="col-xs-6">
+          <div class="input-group">
+            <input type="text" class="form-control input-sm" placeholder="请输入模具编号、名称或者产品图号" v-model="q">
+            <span class="input-group-btn">
+              <button class="btn btn-info btn-sm" type="button">搜索</button>
+            </span>
+          </div>
+        </div>
+      </div>
       <table class="table table-hover table-condensed">
         <thead>
         <tr>
@@ -28,7 +40,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="i in list | filterBy q in 'mId' 'mName'">
+        <tr v-for="i in list | filterBy q in 'mId' 'mName' 'mapId'">
           <th scope="row">{{$index + 1}}</th>
           <td>{{i.moldId}}</td>
           <td>{{i.mId}}</td>
@@ -104,6 +116,7 @@
         states: MOULD_STATES,                     // 模具状态
         workUsers: [],                            // 所有员工
         list: [],                                 // 所有数据
+        q:''
       }
     }
   }

@@ -27,12 +27,12 @@
       },
       {
         "path": "/prodcheck",
-        "title": "产品校对",
+        "title": "工艺审核",
         "show": true
       },
       {
         "path": "/proddispatch",
-        "title": "产品调度",
+        "title": "生产调度",
         "show": true
       },
       {
