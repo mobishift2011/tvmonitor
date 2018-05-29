@@ -204,7 +204,7 @@ export default {
           };
 
           if (line.key !== "lhyl") {
-            gridLeft = "-6.2%";
+            gridLeft = "-6%";
             yAxis.max = _this.maxTemp + 2;
             yAxis.min = _this.minTemp - 5;
           }
@@ -223,7 +223,7 @@ export default {
             },
             grid: {
               left: gridLeft,
-              right: "4%",
+              right: "3%",
               top: "20%",
               bottom: "1%",
               containLabel: true
