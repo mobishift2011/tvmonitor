@@ -30,10 +30,10 @@
         </table>
     </div>
     <div :style="{zIndex:showChart?100:-1000,position:'relative'}" class="" >
-        <div :class="'lhjmain '+'lhjmain'+no" :id="'lhjmain-wd'+no" style="height:120px;" ></div>
+        <div :class="'lhjmain '+'lhjmain'+no" :id="'lhjmain-wd'+no" style="height:110px;" ></div>
     </div>
     <div :style="{zIndex:showChart?100:-1000,position:'relative'}" class="" >
-        <div :class="'lhjmain '+'lhjmain'+no" :id="'lhjmain-lhyl'+no" style="height:120px;" ></div>
+        <div :class="'lhjmain '+'lhjmain'+no" :id="'lhjmain-lhyl'+no" style="height:110px;" ></div>
     </div>  
 </div>
 </template>
