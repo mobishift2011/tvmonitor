@@ -24,6 +24,7 @@
               <td><span class="p-r">升温时间: </span><span class="text-danger" v-text="swTime"></span></td>
               <td><span class="p-r">开始时间: </span><span class="text-danger" v-text="startTimeData"></span></td>
               <td><span class="p-r">结束时间: </span><span class="text-danger" v-text="endTimeData"></span></td>
+              <td><span class="p-r">硫化时间显示: </span><span class="text-danger" v-text="timeDelta+'分钟'"></span></td>
             </tr>
             </tbody>
         </table>
@@ -162,6 +163,9 @@ export default {
         _this.startTimeData = head(timeData);
         _this.endTimeData = last(timeData);
 
+        _this.timeDelta =
+          (moment(_this.endTimeData) - moment(_this.startTimeData)) / 1000 / 60;
+
         _lines.forEach((line, index) => {
           line.name = `模次号:${this.mId}-${line.name}`;
           let lines = [line];
@@ -198,7 +202,7 @@ export default {
               formatter: "{value}"
             }
           };
-          
+
           if (line.key !== "lhyl") {
             gridLeft = "-6.2%";
             yAxis.max = _this.maxTemp + 2;

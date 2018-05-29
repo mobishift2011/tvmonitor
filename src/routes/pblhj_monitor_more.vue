@@ -54,6 +54,10 @@
   .to-print {
     display: initial;
   }
+  .content,
+  .content-wrapper .operation-wrapper {
+    padding-top: 0;
+  }
 }
 </style>
 
@@ -65,7 +69,7 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="to-print">
-                            <h4 class="p-x-sm inline m-r-lg" v-text="`任务号: ${tId}`"></h4>
+                            <strong class="p-x-sm inline m-r-lg" v-text="`任务号: ${tId}`"></strong>
                             <span class="inline-block m-r-lg">
                                 <strong>操作员：</strong>
                                 <strong>{{operator}}</strong>
@@ -81,7 +85,7 @@
                         </div>
                         <div class="row no-print">
                             <div class="col-xs-3">
-                                <h4 class="p-x-sm" v-text="`任务号: ${tId}`"></h4>
+                                <h5 class="p-x-sm" v-text="`任务号: ${tId}`"></h5>
                             </div>
                             <div class="col-xs-9">
                                 <div class="row p-t-xs">
