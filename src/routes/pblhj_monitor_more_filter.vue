@@ -204,7 +204,7 @@ export default {
           };
 
           if (line.key !== "lhyl") {
-            gridLeft = "-6%";
+            // gridLeft = "-6%";
             yAxis.max = _this.maxTemp + 2;
             yAxis.min = _this.minTemp - 5;
           }
