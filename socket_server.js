@@ -1,5 +1,4 @@
 const serverID = 'server' // socketio配置
-// const mongoURL = 'mongodb://alwxkxk:alwxkxk@ds231758.mlab.com:31758/alwxkxk'//mongo地址
 // const mongoURL = 'mongodb://localhost/tvmonitor4'// mongo地址
 const app = require('express')()
 const http = require('http').Server(app)
