@@ -116,19 +116,26 @@
       proceState: proceState,
       proceProdState:proceProdState,
       showEdit(item){
-        //硫化结束后的自检
-        if (item.prodState === 3 && item.checked === 0) return true;
-        if (item.state !== 0 || item.ppId.state !== 6)return false;
+        // 只有工序名为一段硫化和二段硫化
+        // 当硫化状态 是硫化完成时"prodState" : 3,时，才可以工序步骤自检，互检，检验
+        // 其他工序名不用判断，可以工序步骤自检，互检，检验
+        if(item.wp == '一段硫化' || item.wp == '二段硫化') {
+          //硫化结束后的自检
+          if (item.prodState === 3 && !item.checker) return true;
+          return false;
+        }
 
-        var list = this.list.filter(function (i) {
-          return i.ppId.ppId === item.ppId.ppId;
-        });
+        return !item.checker;
 
-        var prevWp = find(list, {index: item.index - 1});
-        if (!prevWp) return true;
-        if (prevWp.state === 2) return true;
+        // if (item.state !== 0 || item.ppId.state !== 6)return false;
 
-        return false;
+        // var list = this.list.filter(function (i) {
+        //   return i.ppId.ppId === item.ppId.ppId;
+        // });
+
+        // var prevWp = find(list, {index: item.index - 1});
+        // if (!prevWp) return true;
+        // if (prevWp.state === 2) return true;        
       },
       /**
        * 获取员工名称

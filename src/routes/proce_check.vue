@@ -59,7 +59,7 @@
           <td>{{{proceState(i)}}}</td>
           <td>{{{proceProdState(i)}}}</td>
           <td>
-            <span v-if="i.state === 0 || i.state === 1 ||(i.prodState==4&&i.checked==0)" class="glyphicon glyphicon-edit" @click="popEdit(i)"></span>
+            <span v-if="['一段硫化', '二段硫化'].indexOf(i.wp)> -1 ? i.prodState == 4 : i.state === 0 && i.checker" class="glyphicon glyphicon-edit" @click="popEdit(i)"></span>
           </td>
         </tr>
         </tbody>
@@ -138,6 +138,7 @@
             params={
                 cValue: this.model.cValue,
                 prodState: 5,
+                state: 1
             }
         }else{
             params={

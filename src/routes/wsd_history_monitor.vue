@@ -7,10 +7,10 @@
         <h1>温湿度历史曲线</h1>
         <div class="content-wrapper">
             <div class="operation-wrapper row">
-                <div class="col-xs-5">
+          <!-- <div class="col-xs-5">
                     <p>ip: <span>{{eqIp}}</span></p>
                     <p>通讯状态: <span>{{connectState.dictName}}</span></p>
-                </div>
+                </div> -->
                 <div class="col-xs-2">
                     <date-picker :time.sync="startTime | moment" placeholder="开始时间"></date-picker>
                 </div>
@@ -32,6 +32,8 @@
             <div id="main7" style="height:400px;"></div>
             <div id="main8" style="height:400px;"></div>
             <div id="main9" style="height:400px;"></div>
+            <div id="main10" style="height:400px;"></div>
+            <div id="main11" style="height:400px;"></div>
             <div style="display: flex;justify-content: center;align-items: center;height: 400px" v-show="!showChart">
                 <h1>暂无数据</h1>
             </div>
@@ -46,16 +48,17 @@ import moment from 'moment';
 import echarts from '../assets/js/echarts.min';
 import { getDataListByKeys, convertXAxis } from '../utils/chartFormat'
 import notify from '../components/notify';
-var lines_one = [{ 'key': 'tjxSd', 'name': '涂胶箱湿度' }, { 'key': 'tjxWd', 'name': '涂胶箱温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //涂胶箱
+var lines_one = [{ 'key': 'tjxSd', 'name': '涂胶间湿度' }, { 'key': 'tjxWd', 'name': '涂胶间温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //涂胶箱
 var lines_two = [{ 'key': 'jlkSd', 'name': '胶料库湿度' }, { 'key': 'jlkWd', 'name': '胶料库温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //胶料库
 var lines_three = [{ 'key': 'cxj3Sd', 'name': '纯橡胶3号湿度' }, { 'key': 'cxj3Wd', 'name': '纯橡胶3号温度' },{ 'key': 'sbbs', 'name': '上班标识' }]  //纯橡胶3号
 var lines_four = [{ 'key': 'cxj4Sd', 'name': '纯橡胶4号湿度' }, { 'key': 'cxj4Wd', 'name': '纯橡胶4号温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //纯橡胶4号
 var lines_five = [{ 'key': 'cxj5Sd', 'name': '纯橡胶5号湿度' }, { 'key': 'cxj5Wd', 'name': '纯橡胶5号温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //纯橡胶5号
 var lines_six = [{ 'key': 'jxj6Sd', 'name': '金橡胶6号湿度' }, { 'key': 'jxj6Wd', 'name': '金橡胶6号温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //金橡胶6号
 var lines_seven = [{ 'key': 'jxj7Sd', 'name': '金橡胶7号湿度' }, { 'key': 'jxj7Wd', 'name': '金橡胶7号温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //金橡胶7号
-var lines_eight = [{ 'key': 'tjj8Sd', 'name': '涂胶间8号湿度' }, { 'key': 'tjj8Wd', 'name': '涂胶间8号温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //涂胶间8号
+var lines_eight = [{ 'key': 'tjj8Sd', 'name': '练胶间湿度' }, { 'key': 'tjj8Wd', 'name': '练胶间温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //练胶间
 var lines_nine = [{ 'key': 'dwxWd', 'name': '低温箱温度' }] //低温箱
-
+var lines_eleven = [{ 'key': 'tj1Sd', 'name': '涂胶柜1号湿度' }, { 'key': 'tj1Wd', 'name': '涂胶柜1号温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //涂胶箱1号
+var lines_twelve = [{ 'key': 'tj2Sd', 'name': '涂胶柜2号湿度' }, { 'key': 'tj2Wd', 'name': '涂胶柜2号温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //涂胶箱2号
 var wsds = require('../../global.json').wsd;
 export default {
     components: {
@@ -109,7 +112,8 @@ export default {
             this.chart7 = echarts.init(document.getElementById('main7'));
             this.chart8 = echarts.init(document.getElementById('main8'));
             this.chart9 = echarts.init(document.getElementById('main9'));
-
+            this.chart10 = echarts.init(document.getElementById('main10'));
+            this.chart11 = echarts.init(document.getElementById('main11'));
             var nowDate = new Date().getTime();
             var intervalTime = 60 * 1000;
             var startDate = this.startTime || (nowDate -  60 * 60 * 1000);
@@ -135,7 +139,8 @@ export default {
                     var option7 = _this.convertOption(data,lines_seven)
                     var option8 = _this.convertOption(data,lines_eight)
                     var option9 = _this.convertOption(data,lines_nine)
-
+                    var option10 = _this.convertOption(data,lines_eleven)
+                    var option11 = _this.convertOption(data,lines_twelve)
 
                     _this.chart1.setOption(option1);
                     _this.chart2.setOption(option2);
@@ -146,7 +151,8 @@ export default {
                     _this.chart7.setOption(option7);
                     _this.chart8.setOption(option8);
                     _this.chart9.setOption(option9);
-
+                    _this.chart10.setOption(option10);
+                    _this.chart11.setOption(option11);
                 });
 
 
@@ -178,6 +184,8 @@ export default {
             chart7: '',            // 图表7
             chart8: '',            // 图表8
             chart9: '',            // 图表9
+            chart10: '',            // 图表10
+            chart11: '',            // 图表11
             eqIp: '',             // 设备编号
             list: [],             // 列表
             listLength: 0,             // 列表长度

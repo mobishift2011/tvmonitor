@@ -66,6 +66,10 @@
           </td>
         </tr>
         <tr>
+          <td><strong>材料牌号</strong></td>
+          <td>{{device.cId}}</td>
+          <td><strong>产品性质</strong></td>
+          <td>{{device.nature}}</td>
           <td><strong>任务号</strong></td>
           <td colspan="11">
             <span v-for="t in device.tIds" track-by="$index">
@@ -82,6 +86,29 @@
       <div slot="modal-body" class="modal-body form-horizontal">
         <div class="form-error" v-show="error">
           <span class="glyphicon glyphicon-remove-sign"></span> {{error}}
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">材料牌号</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <select v-model="model.cId" @change="cIdChange($event)" class="form-control">
+                <option value="">--请选择--</option>
+                <option :value="cidVal" v-for="cidVal in cidList" :key="cidVal">{{cidVal}}</option>
+              </select>              
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">产品性质</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <select v-model="model.nature" @change="natureChange($event)" class="form-control">
+                <option value="">--请选择--</option>
+                <option value="金属件">金属件</option>
+                <option value="纯橡胶件">纯橡胶件</option>
+              </select>
+            </div>
+          </div>
         </div>
         <div class="form-group">
           <label class="col-sm-3 control-label">任务号</label>
@@ -188,6 +215,7 @@
     },
     ready(){
       this.switchData(this.$route.params.id);
+      this.getCids();
       this.getLiji();
     },
     watch: {
@@ -220,6 +248,39 @@
         this.firstTask.cId && this.filterEqualFirstTaskId(this.firstTask.cId);
 
       },
+      filterTIds() {
+        this.model.tIds = [];
+        let planDict = {};
+        let model = this.model;
+        this.allPlans.forEach(item=>{
+          if(model.nature && item.nature != model.nature) {
+            return
+          }
+          if(model.cId && item.cId != model.cId) {
+            return
+          }
+          planDict[item.tId] = true;
+        });
+
+        let filterTsks = this.optionalTsks.filter(item=>{
+          let result = planDict[item.tId] == true;
+          if (result) {
+            item.selected = 0;
+          }
+          return result
+        });
+        this.tasks = cloneDeep(filterTsks);
+      },
+      cIdChange(event) {
+        var val = event.target.value;
+        this.model.cId = val;
+        this.filterTIds();
+      },
+      natureChange(event) {
+        var val = event.target.value;
+        this.model.nature = val;
+        this.filterTIds();
+      },
       filterEqualFirstTaskId(firstCId) {
         if (!firstCId) return;
         var sameTasks = [], sameTIds =[], optional = [];
@@ -251,12 +312,20 @@
         ]).then(function (res) {
           this.workUsers = res[0].data;
           this.list = res[1].data;
-          if (this.list.length > 0)
+          if (this.list.length > 0) {
             this.device = this.list[num-1];
+            this.device.cId = this.device.cId || "";
+            this.device.nature = this.device.nature || "";
+          }
           this.prodList=res[2].data;
           this.prodproces=res[3].data;
           this.loading = false;
         }.bind(this));
+      },
+      getCids() {
+        this.$http.get('/api/jiaoliaos/pids').then(res=>{
+          this.cidList = res.data;
+        });
       },
       getLiji(){
         let time=30 * 1000,_this=this;
@@ -399,17 +468,52 @@
         if (item.tIds.length > 0) 
           this.firstTask = find(this.prodList,{tId:item.tIds[0].tId ||''});
 
-        this.$http.get('/api/hxstates/tasks').then(function(data){
-          this.optionalTsks = data.data;
-          this.tasks = cloneDeep(this.optionalTsks)
-          this.tasks = this.tasks.concat(item.tIds);
-            // this.tasks=uniqBy(this.tasks, 'tId');
-          this.error = '';
-          this.model = cloneDeep(item) || {tIds: []};
+        let planUrl = '/api/allplans';
+        let params = {};
+        if(this.model.cId) {
+          params.cId = this.model.cId;
+        }
+        if(this.model.nature) {
+          params.nature = this.model.nature;
+        }
+        if(params){
+          planUrl += '?' + Object.keys(params).map(key => key + '=' + params[key]).join('&');
+        }
+        Promise.all([
+          this.$http.get(planUrl),
+          this.$http.get('/api/hxstates/tasks')
+        ]).then(
+          function(res) {
+            let planDict = {};
+            let model = this.model;
+            this.allPlans = res[0].data;
+            this.allPlans.forEach(item=>{
+              if(model.nature && item.nature != model.nature) {
+                return
+              }
+              if(model.cId && item.cId != model.cId) {
+                return
+              }
+              planDict[item.tId] = true;
+            });
 
-          this.firstTask && this.filterEqualFirstTaskId(this.firstTask.cId);
-          this.modalEditShow = true;
-        }.bind(this))
+            let data = res[1];
+            this.optionalTsks = data.data;
+            this.optionalTsks = this.optionalTsks.concat(item.tIds);
+
+            let filterTsks = this.optionalTsks.filter(item=>{
+              return planDict[item.tId] == true;
+            });
+            this.tasks = cloneDeep(filterTsks)
+            this.tasks = this.tasks.concat(item.tIds);
+              // this.tasks=uniqBy(this.tasks, 'tId');
+            this.error = '';
+            this.model = cloneDeep(item) || {tIds: []};
+
+            this.firstTask && this.filterEqualFirstTaskId(this.firstTask.cId);
+            this.modalEditShow = true;
+          }.bind(this)
+        );
       },
       /**
        * 删除确认弹出框
@@ -557,6 +661,8 @@
         writeLoading:false,
         prodproces: [],
 
+        allPlans: [],
+        cidList: [] // 材料牌号列表
       }
     }
   }

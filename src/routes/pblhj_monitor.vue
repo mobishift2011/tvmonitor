@@ -25,8 +25,8 @@
                     <!--<button class="btn btn-primary btn-sm" @click="draw()">查 询</button>-->
                 <!--</div>-->
             </div>
-            <div  id="main" style="height:400px;"></div>
-            <div  v-show="showChart">                  
+           <!-- <div  id="main" style="height:400px;"></div>
+            <div  v-show="showChart">                 
                 示值：
                 <input   v-model="option.dataZoom[1].start" style="background-color:green;width:10em;margin-right: 1em;"> 
                 <input   v-model="option.dataZoom[1].end"
@@ -35,7 +35,7 @@
                 <input   v-model="option.dataZoom[0].start" style="background-color:green;;width:10em;margin-right: 1em;"> 
                 <input   v-model="option.dataZoom[0].end" style="background-color:red;;width:10em;"> 
             </div>
-            <div   style="display: flex;justify-content: center;align-items: center;height: 400px" v-show="!showChart"><h1>暂无数据</h1></div>
+            <div   style="display: flex;justify-content: center;align-items: center;height: 400px" v-show="!showChart"><h1>暂无数据</h1></div>--> 
         </div>
     </div>
 </template>
@@ -50,13 +50,13 @@
     var lines = [
         {'key':'wd1','name': '1号温度'},
         {'key':'wd2','name':'2号温度'},
-        {'key':'wd3','name':'3号温度'}, 
-        {'key':'wd4','name':'4号温度'},
+       // {'key':'wd3','name':'3号温度'}, 
+      //  {'key':'wd4','name':'4号温度'},
         {'key':'lhyl','name':'压力'},
-        {'key':'lhsssj','name':'硫化实时时间'},
-        {'key':'firstBhgcl','name':'加热板温度1'},
-        {'key':'secondBhgcl','name':'加热板温度2'},
-        {'key':'thirdBhgcl', 'name':'加热板温度3'}
+      //  {'key':'lhsssj','name':'硫化实时时间'},
+      //  {'key':'firstBhgcl','name':'加热板温度1'},
+      //  {'key':'secondBhgcl','name':'加热板温度2'},
+      //  {'key':'thirdBhgcl', 'name':'加热板温度3'}
     ]
     export default{
 
@@ -274,11 +274,11 @@
                             fontWeight: 'bold'
                         },
                         // 默认不显示
-                        selected: {
-                            '加热板温度1' : false,
-                            '加热板温度2' : false,
-                            '加热板温度3' : false,
-                        },
+                        //selected: {
+                       //     '加热板温度1' : false,
+                       //     '加热板温度2' : false,
+                       //     '加热板温度3' : false,
+                      //  },
                         controlStyle: {
                             itemSize: 30,
                             itemGap: 10,
@@ -301,35 +301,35 @@
                             formatter: '{value}'
                         }
                     },
-                    dataZoom: [
-                        {
-                            type: 'slider',
-                            show: true,
-                            xAxisIndex: [0],
-                            start: 1,
-                            end: 100
-                        },
-                        {
-                            type: 'slider',
-                            show: true,
-                            yAxisIndex: [0],
-                            left: '93%',
-                            start: 60,
-                            end: 100
-                        },
-                        {
-                            type: 'inside',
-                            xAxisIndex: [0],
-                            start: 1,
-                            end: 100
-                        },
-                        {
-                            type: 'inside',
-                            yAxisIndex: [0],
-                            start: 29,
-                            end: 100
-                        }
-                    ],
+                  //  dataZoom: [
+                   //     {
+                   //         type: 'slider',
+                   //         show: true,
+                   //         xAxisIndex: [0],
+                   //         start: 1,
+                   //         end: 100
+                   //     },
+                   //     {
+                   //         type: 'slider',
+                   //         show: true,
+                   //         yAxisIndex: [0],
+                   //         left: '93%',
+                   //         start: 60,
+                   //         end: 100
+                   //     },
+                   //     {
+                   //         type: 'inside',
+                   //         xAxisIndex: [0],
+                  //          start: 1,
+                  //          end: 100
+                  //      },
+                  //      {
+                  //          type: 'inside',
+                  //          yAxisIndex: [0],
+                  //          start: 29,
+                  //          end: 100
+                  //      }
+                  //  ],
                     series: 0// 移植，在draw里赋值
                 }
 

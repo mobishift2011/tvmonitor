@@ -117,98 +117,55 @@
                         <div class="row p-a m-t-xs no-print">
                             <div class="col-xs-3 p-t-sm">
                                 <span>
-                                    <strong>模次号1：</strong>
+                                    <strong>模次号：</strong>
                                 </span>
-                                <input type="text" v-model="mId1" placeholder="请输入模次号">
+                                <input type="text" v-model="mId" placeholder="请输入模次号">
                             </div>
                             <div class="col-xs-2">
-                                <button type="button" class="btn btn-primary m-r m-t-xs" @click="fetchLHJData(1)">查询</button>
+                                <button type="button" class="btn btn-primary m-r m-t-xs" @click="fetchJrbData">查询</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <pblhj-monitor-more-filter :bdkz="bdkz1" :no="'1'" v-ref:chart1></pblhj-monitor-more-filter>
             </div>
         </div>
-        <!-- 模次2 -->
+        <!-- 1 -->
         <div class="content-wrapper" v-show="!loading">
             <div class="operation-wrapper lhj-form p-x">
                 <div class="row no-print">
                     <div class="col-xs-3 p-t-sm">
                         <span>
-                            <strong>模次号2：</strong>
+                            <strong>上加热板温度：</strong>
                         </span>
-                        <input type="text" v-model="mId2" placeholder="请输入模次号">
-                    </div>
-                    <div class="col-xs-2">
-                        <button type="button" class="btn btn-primary m-r m-t-xs" @click="fetchLHJData(2)">查询</button>
                     </div>
                 </div>
-                <pblhj-monitor-more-filter :bdkz="bdkz2" :no="'2'" v-ref:chart2></pblhj-monitor-more-filter>
+                <pblhj-jrb-detail :no="'1'" v-ref:chart1></pblhj-jrb-detail>
             </div>
         </div>
-        <!-- 模次3 -->
+        <!-- 2 -->
         <div class="content-wrapper" v-show="!loading">
             <div class="operation-wrapper lhj-form p-x">
                 <div class="row no-print">
                     <div class="col-xs-3 p-t-sm">
                         <span>
-                            <strong>模次号3：</strong>
+                            <strong>中加热板温度：</strong>
                         </span>
-                        <input type="text" v-model="mId3" placeholder="请输入模次号">
-                    </div>
-                    <div class="col-xs-2">
-                        <button type="button" class="btn btn-primary m-r m-t-xs" @click="fetchLHJData(3)">查询</button>
                     </div>
                 </div>
-                <pblhj-monitor-more-filter :bdkz="bdkz3" :no="'3'" v-ref:chart3></pblhj-monitor-more-filter>
+                <pblhj-jrb-detail :no="'2'" v-ref:chart2></pblhj-jrb-detail>
             </div>
         </div>
-        <!-- 模次4 -->
+        <!-- 3 -->
         <div class="content-wrapper" v-show="!loading">
             <div class="operation-wrapper lhj-form p-x">
                 <div class="row no-print">
                     <div class="col-xs-3 p-t-sm">
                         <span>
-                            <strong>模次号4：</strong>
+                            <strong>下加热板温度：</strong>
                         </span>
-                        <input type="text" v-model="mId4" placeholder="请输入模次号">
-                    </div>
-                    <div class="col-xs-2">
-                        <button type="button" class="btn btn-primary m-r m-t-xs" @click="fetchLHJData(4)">查询</button>
                     </div>
                 </div>
-                <pblhj-monitor-more-filter :bdkz="bdkz4" :no="'4'" v-ref:chart4></pblhj-monitor-more-filter>
-            </div>
-        </div>
-        <!-- 模次5 -->
-        <div class="content-wrapper" v-show="!loading">
-            <div class="operation-wrapper lhj-form p-x">
-                <div class="row no-print">
-                    <div class="col-xs-3 p-t-sm">
-                        <span>
-                            <strong>模次号5：</strong>
-                        </span>
-                        <input type="text" v-model="mId5" placeholder="请输入模次号">
-                    </div>
-                    <div class="col-xs-2">
-                        <button type="button" class="btn btn-primary m-r m-t-xs" @click="fetchLHJData(5)">查询</button>
-                    </div>
-                </div>
-                <pblhj-monitor-more-filter :bdkz="bdkz5" :no="'5'" v-ref:chart5></pblhj-monitor-more-filter>
-            </div>
-        </div>
-
-        <div class="sign to-print" v-show="!loading">
-            <div class="p-x pull-right">
-                <span class="inline-block m-r-lg">
-                    <strong>操作者：</strong>
-                    <strong>________________________</strong>
-                </span>
-                <span class="inline-block">
-                    <strong>检验员：</strong>
-                    <strong>________________________</strong>
-                </span>
+                <pblhj-jrb-detail :no="'3'" v-ref:chart3></pblhj-jrb-detail>
             </div>
         </div>
     </div>
@@ -216,12 +173,12 @@
 
 <script>
 import { uniq } from "lodash";
-import pblhjMonitorMoreFilter from "./pblhj_monitor_more_filter";
+import pblhjJrbDetail from "./pblhj_jrb_detail";
 
 export default {
   props: ["id"],
   components: {
-    pblhjMonitorMoreFilter
+    pblhjJrbDetail
   },
   watch: {
     tId: {
@@ -231,21 +188,6 @@ export default {
         }
       },
       deep: true
-    },
-    bdkz1(val) {
-      this._fetchLHJData(1);
-    },
-    bdkz2(val) {
-      this._fetchLHJData(2);
-    },
-    bdkz3(val) {
-      this._fetchLHJData(3);
-    },
-    bdkz4(val) {
-      this._fetchLHJData(4);
-    },
-    bdkz5(val) {
-      this._fetchLHJData(5);
     }
   },
   created() {
@@ -253,12 +195,17 @@ export default {
   },
   methods: {
     switchData() {},
+    fetchJrbData() {
+      this.fetchLHJData(1);
+      this.fetchLHJData(2);
+      this.fetchLHJData(3);
+    },
     _fetchLHJData(no) {
       this.$refs["chart" + no].init({
         wuId: this.operator || "",
         tId: this.tId || "",
         mould: this.mould || "",
-        mId: this["mId" + no] || ""
+        mId: this["mId"] || ""
       });
     },
     fetchLHJData(no) {

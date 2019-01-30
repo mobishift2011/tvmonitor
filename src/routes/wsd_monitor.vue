@@ -14,12 +14,12 @@
                       </select>
                   </div>
               </div>
-            <div class="operation-wrapper row">
+     <!-- <div class="operation-wrapper row">
                 <div class="col-xs-5">
                     <p>ip: <span>{{eqIp}}</span></p>
                     <p>通讯状态: <span>{{connectState.dictName}}</span></p>
                 </div>
-            </div>
+            </div> -->
 
             <div id="main1" style="height:400px;"></div>
             <!-- <div id="main2" style="height:400px;"></div>
@@ -44,25 +44,29 @@ import moment from 'moment';
 import echarts from '../assets/js/echarts.min';
 import { getDataListByKeys, convertXAxis } from '../utils/chartFormat'
 import notify from '../components/notify';
-var lines_one = [{ 'key': 'tjxSd', 'name': '涂胶箱湿度' }, { 'key': 'tjxWd', 'name': '涂胶箱温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //涂胶箱
+var lines_one = [{ 'key': 'tjxSd', 'name': '涂胶间湿度' }, { 'key': 'tjxWd', 'name': '涂胶间温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //涂胶箱
 var lines_two = [{ 'key': 'jlkSd', 'name': '胶料库湿度' }, { 'key': 'jlkWd', 'name': '胶料库温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //胶料库
 var lines_three = [{ 'key': 'cxj3Sd', 'name': '纯橡胶3号湿度' }, { 'key': 'cxj3Wd', 'name': '纯橡胶3号温度' },{ 'key': 'sbbs', 'name': '上班标识' }]  //纯橡胶3号
 var lines_four = [{ 'key': 'cxj4Sd', 'name': '纯橡胶4号湿度' }, { 'key': 'cxj4Wd', 'name': '纯橡胶4号温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //纯橡胶4号
 var lines_five = [{ 'key': 'cxj5Sd', 'name': '纯橡胶5号湿度' }, { 'key': 'cxj5Wd', 'name': '纯橡胶5号温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //纯橡胶5号
 var lines_six = [{ 'key': 'jxj6Sd', 'name': '金橡胶6号湿度' }, { 'key': 'jxj6Wd', 'name': '金橡胶6号温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //金橡胶6号
 var lines_seven = [{ 'key': 'jxj7Sd', 'name': '金橡胶7号湿度' }, { 'key': 'jxj7Wd', 'name': '金橡胶7号温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //金橡胶7号
-var lines_eight = [{ 'key': 'tjj8Sd', 'name': '涂胶间8号湿度' }, { 'key': 'tjj8Wd', 'name': '涂胶间8号温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //涂胶间8号
+var lines_eight = [{ 'key': 'tjj8Sd', 'name': '练胶间湿度' }, { 'key': 'tjj8Wd', 'name': '练胶间温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //练胶间
 var lines_nine = [{ 'key': 'dwxWd', 'name': '低温箱温度' }] //低温箱
+var lines_eleven = [{ 'key': 'tj1Sd', 'name': '涂胶柜1号湿度' }, { 'key': 'tj1Wd', 'name': '涂胶柜1号温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //涂胶箱1号
+var lines_twelve = [{ 'key': 'tj2Sd', 'name': '涂胶柜2号湿度' }, { 'key': 'tj2Wd', 'name': '涂胶柜2号温度' },{ 'key': 'sbbs', 'name': '上班标识' }] //涂胶箱2号
 var allDevices = [
-    { name: '涂胶箱', lines: lines_one },
+    { name: '涂胶间', lines: lines_one },
     { name: '胶料库', lines: lines_two },
     { name: '纯橡胶3号', lines: lines_three },
     { name: '纯橡胶4号', lines: lines_four },
     { name: '纯橡胶5号', lines: lines_five },
     { name: '金橡胶6号', lines: lines_six },
     { name: '金橡胶7号', lines: lines_seven },
-    { name: '涂胶间8号', lines: lines_eight },
-    { name: '低温箱', lines: lines_nine}
+    { name: '练胶间', lines: lines_eight },
+    { name: '低温箱', lines: lines_nine},
+    { name: '涂胶柜1号', lines: lines_eleven},
+    { name: '涂胶柜2号', lines: lines_twelve}
 ];
 var wsds = require('../../global.json').wsd;
 export default {

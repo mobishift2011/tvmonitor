@@ -39,6 +39,10 @@
 .m-r-lg {
   margin-right: 3em;
 }
+.m-x {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
 .inline {
   display: inline-block;
 }
@@ -90,18 +94,14 @@
                             <div class="col-xs-9">
                                 <div class="row p-t-xs">
                                     <div class="col-xs-4">
-                                        <span>
-                                            <strong>操作员：</strong>
-                                        </span>
+                                        <span><strong>操作员：</strong></span>
                                         <select @change="switchData" class="form-control input-sm" v-model="operator">
                                             <option value="" selected>--请选择操作员--</option>
                                             <option :value="o" v-for="o in operators">{{o}}</option>
                                         </select>
                                     </div>
                                     <div class="col-xs-4">
-                                        <span>
-                                            <strong>模具号：</strong>
-                                        </span>
+                                        <span><strong>模具号：</strong></span>
                                         <select @change="switchData" class="form-control input-sm" v-model="mould">
                                             <option value="" selected>--请选择模具号--</option>
                                             <option :value="m" v-for="m in moulds">{{m}}</option>
@@ -114,88 +114,78 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row p-a m-t-xs no-print">
+                        <!-- <div class="row p-a m-t-xs no-print">
                             <div class="col-xs-3 p-t-sm">
-                                <span>
-                                    <strong>模次号1：</strong>
-                                </span>
+                                <span><strong>模次号1：</strong></span>
                                 <input type="text" v-model="mId1" placeholder="请输入模次号">
                             </div>
-                            <div class="col-xs-2">
+                            <div class="col-xs-3">
                                 <button type="button" class="btn btn-primary m-r m-t-xs" @click="fetchLHJData(1)">查询</button>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
-                <pblhj-monitor-more-filter :bdkz="bdkz1" :no="'1'" v-ref:chart1></pblhj-monitor-more-filter>
+                <pblhj-monitor-more-filter :no="'1'" v-ref:chart1></pblhj-monitor-more-filter>
             </div>
         </div>
         <!-- 模次2 -->
         <div class="content-wrapper" v-show="!loading">
             <div class="operation-wrapper lhj-form p-x">
-                <div class="row no-print">
+                <!-- <div class="row no-print">
                     <div class="col-xs-3 p-t-sm">
-                        <span>
-                            <strong>模次号2：</strong>
-                        </span>
+                        <span><strong>模次号2：</strong></span>
                         <input type="text" v-model="mId2" placeholder="请输入模次号">
                     </div>
-                    <div class="col-xs-2">
+                    <div class="col-xs-3">
                         <button type="button" class="btn btn-primary m-r m-t-xs" @click="fetchLHJData(2)">查询</button>
                     </div>
-                </div>
-                <pblhj-monitor-more-filter :bdkz="bdkz2" :no="'2'" v-ref:chart2></pblhj-monitor-more-filter>
+                </div> -->
+                <pblhj-monitor-more-filter :no="'2'" v-ref:chart2></pblhj-monitor-more-filter>
             </div>
         </div>
         <!-- 模次3 -->
         <div class="content-wrapper" v-show="!loading">
             <div class="operation-wrapper lhj-form p-x">
-                <div class="row no-print">
+                <!-- <div class="row no-print">
                     <div class="col-xs-3 p-t-sm">
-                        <span>
-                            <strong>模次号3：</strong>
-                        </span>
+                        <span><strong>模次号3：</strong></span>
                         <input type="text" v-model="mId3" placeholder="请输入模次号">
                     </div>
-                    <div class="col-xs-2">
+                    <div class="col-xs-3">
                         <button type="button" class="btn btn-primary m-r m-t-xs" @click="fetchLHJData(3)">查询</button>
                     </div>
-                </div>
-                <pblhj-monitor-more-filter :bdkz="bdkz3" :no="'3'" v-ref:chart3></pblhj-monitor-more-filter>
-            </div>
+                </div> -->
+                <pblhj-monitor-more-filter :no="'3'" v-ref:chart3></pblhj-monitor-more-filter>
+            </div>            
         </div>
         <!-- 模次4 -->
         <div class="content-wrapper" v-show="!loading">
             <div class="operation-wrapper lhj-form p-x">
-                <div class="row no-print">
+                <!-- <div class="row no-print">
                     <div class="col-xs-3 p-t-sm">
-                        <span>
-                            <strong>模次号4：</strong>
-                        </span>
+                        <span><strong>模次号4：</strong></span>
                         <input type="text" v-model="mId4" placeholder="请输入模次号">
                     </div>
-                    <div class="col-xs-2">
+                    <div class="col-xs-3">
                         <button type="button" class="btn btn-primary m-r m-t-xs" @click="fetchLHJData(4)">查询</button>
                     </div>
-                </div>
-                <pblhj-monitor-more-filter :bdkz="bdkz4" :no="'4'" v-ref:chart4></pblhj-monitor-more-filter>
-            </div>
+                </div> -->
+                <pblhj-monitor-more-filter :no="'4'" v-ref:chart4></pblhj-monitor-more-filter>
+            </div>            
         </div>
         <!-- 模次5 -->
         <div class="content-wrapper" v-show="!loading">
             <div class="operation-wrapper lhj-form p-x">
-                <div class="row no-print">
+                <!-- <div class="row no-print">
                     <div class="col-xs-3 p-t-sm">
-                        <span>
-                            <strong>模次号5：</strong>
-                        </span>
+                        <span><strong>模次号5：</strong></span>
                         <input type="text" v-model="mId5" placeholder="请输入模次号">
                     </div>
-                    <div class="col-xs-2">
+                    <div class="col-xs-3">
                         <button type="button" class="btn btn-primary m-r m-t-xs" @click="fetchLHJData(5)">查询</button>
                     </div>
-                </div>
-                <pblhj-monitor-more-filter :bdkz="bdkz5" :no="'5'" v-ref:chart5></pblhj-monitor-more-filter>
+                </div> -->
+                <pblhj-monitor-more-filter :no="'5'" v-ref:chart5></pblhj-monitor-more-filter>
             </div>
         </div>
 
@@ -211,12 +201,21 @@
                 </span>
             </div>
         </div>
+        
+        <div class="no-print pull-right">
+            <span>第</span>
+            <select class="m-x" v-model="page" @change="onPageChange">
+                <option :value="item" v-for="item in pages">{{item}}</option>
+            </select>
+            <span>页</span>
+        </div>
     </div>
 </template>
 
 <script>
 import { uniq } from "lodash";
 import pblhjMonitorMoreFilter from "./pblhj_monitor_more_filter";
+import { log } from "util";
 
 export default {
   props: ["id"],
@@ -231,39 +230,67 @@ export default {
         }
       },
       deep: true
-    },
-    bdkz1(val) {
-      this._fetchLHJData(1);
-    },
-    bdkz2(val) {
-      this._fetchLHJData(2);
-    },
-    bdkz3(val) {
-      this._fetchLHJData(3);
-    },
-    bdkz4(val) {
-      this._fetchLHJData(4);
-    },
-    bdkz5(val) {
-      this._fetchLHJData(5);
     }
   },
   created() {
     this.tId = this.$route.params.id;
   },
   methods: {
-    switchData() {},
-    _fetchLHJData(no) {
-      this.$refs["chart" + no].init({
+    getMch() {
+      let params = {
         wuId: this.operator || "",
         tId: this.tId || "",
-        mould: this.mould || "",
-        mId: this["mId" + no] || ""
+        mould: this.mould || ""
+      };
+      this.$http.post("/api/pblhjmonitorfilter", params).then(res => {
+        let mchDict = {};
+        res.data.forEach(item => {
+          for (let task of [
+            "firstTask",
+            "secondTask",
+            "thirdTask",
+            "fourthTask"
+          ]) {
+            let itemTask = item[task];
+            if (
+              itemTask &&
+              itemTask.tId == this.tId &&
+              itemTask.mjh == this.mould
+            ) {
+              if (itemTask.mch != null) {
+                mchDict[itemTask.mch] = true;
+              }
+            }
+          }
+        });
+
+        this.mchList = Object.keys(mchDict);
+        this.offset = (this.page - 1) * 5;
+        this.fetchLHJData(1, this.mchList[0 + this.offset] || 0);
+        this.fetchLHJData(2, this.mchList[1 + this.offset] || 0);
+        this.fetchLHJData(3, this.mchList[2 + this.offset] || 0);
+        this.fetchLHJData(4, this.mchList[3 + this.offset] || 0);
+        this.fetchLHJData(5, this.mchList[4 + this.offset] || 0);
+
+        this.pages = [];
+        for (let i = 0; i < Math.ceil(this.mchList.length / 5); i++) {
+          this.pages.push(i + 1);
+        }
       });
     },
-    fetchLHJData(no) {
-      this[`bdkz${no}`] = false;
-      this._fetchLHJData(no);
+    switchData() {
+      this.getMch();
+    },
+    fetchLHJData(no, mid) {
+      this.$refs["chart" + no].init(
+        {
+          wuId: this.operator || "",
+          tId: this.tId || "",
+          mould: this.mould || "",
+          mId: mid || ""
+        },
+        true
+      );
     },
     draw() {
       if (!this.tId) {
@@ -282,11 +309,14 @@ export default {
 
             if (this.operators.length > 0) this.operator = this.operators[0];
             if (this.moulds.length > 0) this.mould = this.moulds[0];
-            return this.fetchLHJData(1);
+            return this.getMch();
           } else {
             return;
           }
         });
+    },
+    onPageChange(val) {
+      this.getMch();
     }
   },
   ready() {
@@ -309,13 +339,11 @@ export default {
       list: [], // 列表
       // devices: [],          // 所有设备
       workUsers: [], // 所有员工,
-      outerMId: null, //产品图号,
+      outerMId: null, //产品图号
 
-      bdkz1: false,
-      bdkz2: false,
-      bdkz3: false,
-      bdkz4: false,
-      bdkz5: false
+      mchList: [],
+      page: 1,
+      pages: []
     };
   }
 };

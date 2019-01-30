@@ -46,21 +46,21 @@
         <tbody>
         <tr v-for="i in list" track-by="$index">
           <!-- <th scope="row">{{$index + 1}}</th> -->
-          <td>{{i.eqIp}}</td>
+          <td :class="{'danger': i.connectState!=1}">{{i.eqIp}}</td>
           <!-- <td>{{getWorkUserName(i.adder)}}</td> -->
-          <td>{{i.wuId}}</td>
-          <td>{{i.connectState}}</td>
+          <td :class="{'danger': i.connectState!=1}">{{i.wuId}}</td>
+          <td :class="{'danger': i.connectState!=1}">{{i.connectState}}</td>
 
-          <td>{{i.lhyl}}</td>
-          <td>{{i.lhsssj}}</td>
-          <td>{{i.swsssj}}</td>
-          <td>{{i.lhbz}}</td>
+          <td :class="{'danger': i.connectState!=1}">{{i.lhyl}}</td>
+          <td :class="{'danger': i.connectState!=1}">{{i.lhsssj}}</td>
+          <td :class="{'danger': i.connectState!=1}">{{i.swsssj}}</td>
+          <td :class="{'danger': i.connectState!=1}">{{i.lhbz}}</td>
           <!-- <td>{{i.bdkz}}</td> -->
           <!-- <td>{{i.swsjcc}}</td> -->
           <!-- <td>{{i.ylcc}}</td> -->
           <!-- <td>{{i.wdcc}}</td> -->
 
-          <td>
+          <td :class="{'danger': i.connectState!=1}">
             <template v-if="i.lhbz*1==0 && i.connectState*1==1">
             <input type="button" value="添加" class="btn btn-primary btn-sm glyphicon-edit" @click="popEdit(i)">
             <input type="button" value="模具号选择" class="btn btn-primary btn-sm glyphicon-play" @click="popWrite(i)">
@@ -77,7 +77,7 @@
           <td><strong>任务号</strong></td>
           <td><strong>模具号</strong></td>
           <td><strong>材料牌号</strong></td>
-          <td><strong>有效模腔数</strong></td>
+          <!--<td><strong>有效模腔数</strong></td>-->
           <td><strong>硫化温度</strong></td>
           <td><strong>模次号</strong></td>
           <!--
@@ -94,7 +94,7 @@
               <td>{{i.firstTask.tId}}</td>
               <td>{{i.firstTask.mjh}}</td>
               <td>{{i.firstTask.cpth}}</td>
-              <td>{{i.firstTask.yxmqs}}</td>
+              <!--<td>{{i.firstTask.yxmqs}}</td>-->
               <td>{{i.wd1}}</td>
               <td>{{i.firstTask.mch}}</td>
               <!--
@@ -110,7 +110,7 @@
               <td>{{i.secondTask.tId}}</td>
               <td>{{i.secondTask.mjh}}</td>
               <td>{{i.secondTask.cpth}}</td>
-              <td>{{i.secondTask.yxmqs}}</td>
+              <!--<td>{{i.secondTask.yxmqs}}</td>-->
               <td>{{i.wd2}}</td>
               <td>{{i.secondTask.mch}}</td>
               <!--
@@ -126,7 +126,7 @@
               <td>{{i.thirdTask.tId}}</td>
               <td>{{i.thirdTask.mjh}}</td>
               <td>{{i.thirdTask.cpth}}</td>
-              <td>{{i.thirdTask.yxmqs}}</td>
+              <!--<td>{{i.thirdTask.yxmqs}}</td>-->
               <td>{{i.wd3}}</td>
               <td>{{i.thirdTask.mch}}</td>
               <!--
@@ -142,7 +142,7 @@
               <td>{{i.fourthTask.tId}}</td>
               <td>{{i.fourthTask.mjh}}</td>
               <td>{{i.fourthTask.cpth}}</td>
-              <td>{{i.fourthTask.yxmqs}}</td>
+              <!--<td>{{i.fourthTask.yxmqs}}</td>-->
               <td>{{i.wd4}}</td>
               <td>{{i.fourthTask.mch}}</td>
               <!--
@@ -156,8 +156,16 @@
 
         </tbody>
       </table>
-      <pblhj-monitor :devices="devices"></pblhj-monitor>
+      <!-- <pblhj-monitor :devices="devices"></pblhj-monitor> -->
     </div>
+
+    <div class="content-wrapper">
+      <div class="operation-wrapper">
+        <!--<h3 class="p-x-sm">硫化机历史数据</h5>-->
+        <pblhj-monitor-more-filter v-ref:chart></pblhj-monitor-more-filter>
+      </div>
+    </div>
+
     <modal :title="model._id ? '修改设备状态': '新增设备状态'" :show.sync="modalEditShow" effect="fade" cancel-text="取 消" ok-text="确 定" :callback="submit" :backdrop="false">
       <div slot="modal-body" class="modal-body form-horizontal">
         <div class="form-error" v-show="error">
@@ -328,23 +336,33 @@
   import {cloneDeep, find, findIndex, uniqBy} from 'lodash';
   import {modal} from 'vue-strap';
   import Vue from 'vue';
+  import io from 'socket.io-client';
 
   import {planState} from '../utils/label';
   import notify from '../components/notify';
   import oauth from '../utils/oauth';
   import PblhjMonitor from './pblhj_monitor.vue';
+  import pblhjMonitorMoreFilter from "./pblhj_monitor_more_filter";
 
   export default{
     components: {
       modal,
-      PblhjMonitor
+      PblhjMonitor,
+      pblhjMonitorMoreFilter
     },
     created(){
       this.switchData(this.$route.params.id);
-      this.getLiji();
+      // this.getLiji();
 
+      const socket = io('http://localhost:3000');
+      this.socket = socket;
+      socket.on('stateChanged', (data)=>{
+        this.refresh();
+      });
     },
-
+    destroyed(){
+      this.socket.close();
+    },
     watch: {
       '$route.params': {
         handler: function (val) { 
@@ -518,6 +536,11 @@
               this.firstTask = find(this.plans,{tId:this.tIds[0] ||''});
             this.plans = find(this.plans, { picker: this.userInfo._id, tId: this.tIds[0]});
 
+            
+            if(this.list.length){
+              let ft = this.list[0].firstTask;
+              this.drawLHJData(ft.tId, ft.mjh, ft.mch);
+            }
           }.bind(this));
       },
       getLiji(){
@@ -997,7 +1020,17 @@
                   notify.error('写入数据失败！');
                   console.log('write err',err)
                 });
-      }
+      },
+      drawLHJData(tId, mould, mId) {
+        let chartCom = this.$refs["chart"];
+        chartCom.init({
+          wuId: "",
+          tId: tId || "",
+          mould: mould || "",
+          mId: mId || ""
+        }, true);
+        chartCom.$set('showChart', true);
+      },
     },
       beforeDestroy(){
           clearInterval(this.lhjListInterval);
@@ -1052,6 +1085,8 @@
         tasksWrite:[],
         WriteTemps:[],
         modules:[],
+
+        socket: null,
       }
     }
   }

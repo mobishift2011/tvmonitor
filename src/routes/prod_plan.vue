@@ -38,6 +38,7 @@
           <th>调度员</th>
           <th>计划进度</th>
           <th>生产数量（个）</th>
+          <th>产品性质</th>
           <th>操作</th>
         </tr>
         </thead>
@@ -54,6 +55,7 @@
           <td>{{getWorkUserName(i.dispatcher)}}</td>
           <td>{{{planState(i)}}}</td>
           <td>{{i.planComment}}</td>
+          <td>{{i.nature}}</td>
           <td>
             <span class="glyphicon glyphicon-edit" @click="popEdit(i)"></span>
             <span class="glyphicon glyphicon-trash" @click="popDel(i)"></span>
@@ -125,6 +127,16 @@
           <label class="col-sm-3 control-label">生产数量（个）</label>
           <div class="col-sm-9">
             <input type="text" v-model="model.planComment" maxlength="50" class="form-control input-sm"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">产品性质</label>
+          <div class="col-sm-9">
+            <select v-model="model.nature" class="form-control input-sm">
+              <option value="">--请选择--</option>
+              <option value="金属件">金属件</option>
+              <option value="纯橡胶件">纯橡胶件</option>
+            </select>
           </div>
         </div>
       </div>
@@ -206,6 +218,11 @@
           return false;
         }
 
+        if(!this.model.nature) {
+          this.error = '请选择产品性质';
+          return false;
+        }
+
         var proce = find(this.maps, {mId: this.model.mId});
 
         if (!proce) {
@@ -264,7 +281,7 @@
        */
       popEdit(item){
         this.error = '';
-        this.model = cloneDeep(item) || {skiller: '', dispatcher: '', special: ''};
+        this.model = cloneDeep(item) || {skiller: '', dispatcher: '', special: '', nature: ''};
         this.modalEditShow = true;
       },
       /**

@@ -33,6 +33,7 @@
           <th>调度员</th>
           <th>计划进度</th>
           <th>生产数量（个）</th>
+          <th>产品性质</th>
           <th>操作</th>
         </tr>
         </thead>
@@ -51,6 +52,7 @@
           <td>{{getWorkUserName(i.dispatcher)}}</td>
           <td>{{{planState(i)}}}</td>
           <td>{{i.planComment}}</td>
+          <td>{{i.nature}}</td>
           <td>
             <a v-link="{path:'/allplan/'+ i._id}"><span class="glyphicon glyphicon glyphicon-info-sign"></span></a>
           </td>

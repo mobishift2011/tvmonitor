@@ -40,7 +40,7 @@
             <td colspan="5">
               <template v-for="m in plan.mould">
                 <strong>{{$index+1}}.&nbsp;</strong>
-                <span style="color:#888;">{{m.mId}}&nbsp;&nbsp;&nbsp;&nbsp;</span></template>  
+                <span style="color:#888;">{{m.mId}} (有效腔数：{{m.ccNum}})&nbsp;&nbsp;&nbsp;&nbsp;</span></template>  
             </td>
             <!-- <th>有效模腔数 </th> -->
             <!-- <td>{{plan.mould[0].ccNum}}</td> -->

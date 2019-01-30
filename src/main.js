@@ -60,6 +60,8 @@ import HxMonitorPrint from './routes/hx_monitor_print'
 import WsdMonitor from './routes/wsd_monitor';
 import WsdHistoryMonitor from './routes/wsd_history_monitor';
 import pblhjMonitorMore from './routes/pblhj_monitor_more';
+import pblhjMonitorAll from './routes/pblhj_monitor_all';
+import pblhjJrb from './routes/pblhj_jrb';
 
 // import ElementUI from 'element';
 // import 'element-ui/lib/theme-default/index.css'
@@ -156,7 +158,7 @@ router.map({
       },
       '/mouldapply': {
         component: MouldApply
-      },  
+      },
       '/mould/state/:mId': {
         component: MouldDetail
       },
@@ -173,10 +175,10 @@ router.map({
         component: JiaoLiaoCheck
       },
       '/jiaoliaocancel': {
-          component: jiaoLiaoCancel
+        component: jiaoLiaoCancel
       },
       '/jiaoliaotest': {
-          component: jiaoLiaoTest
+        component: jiaoLiaoTest
       },
       '/jiaoliao/:id': {
         component: JiaoLiaoDetail
@@ -193,9 +195,9 @@ router.map({
       '/hxstate/:id': {
         component: HxState
       },
-     /*  '/hxmonitor': {
-        component: HxMonitor
-      }, */
+      /*  '/hxmonitor': {
+         component: HxMonitor
+       }, */
       '/hxmonitorprint/:id': {
         component: HxMonitorPrint
       },
@@ -207,6 +209,12 @@ router.map({
       },
       '/pblhjmonitormore/:id': {
         component: pblhjMonitorMore
+      },
+      '/pblhjmonitorall/:id': {
+        component: pblhjMonitorAll
+      },
+      'pblhjjrb/:id': {
+        component: pblhjJrb
       }
     }
   },
@@ -233,11 +241,11 @@ Vue.http.interceptors.push((request, next) => {
 
   next((response) => {
     if (response.status === 401) {
-      router.go({path: '/login'});
+      router.go({ path: '/login' });
     }
 
     if (response.status === 403) {
-      router.go({path: '/error'});
+      router.go({ path: '/error' });
     }
   });
 });

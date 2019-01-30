@@ -75,7 +75,7 @@
           <td>{{{proceState(i)}}}</td>
           <td>{{{proceProdState(i)}}}</td>
           <td>
-            <button v-if="i.state === 1||(i.prodState==5&&i.checked==0)" type="button" class="btn btn-primary btn-xs" @click="popEdit(i)">通过</button>
+            <button v-if="['一段硫化', '二段硫化'].indexOf(i.wp)> -1 ? i.prodState == 5 : i.state === 1" type="button" class="btn btn-primary btn-xs" @click="popEdit(i)">通过</button>
           </td>
         </tr>
         </tbody>
@@ -186,6 +186,7 @@
                 tValue: this.model.tValue,
                 index: this.model.index,
                 prodState: 6,
+                state: 2
             }
         }else{
             params={

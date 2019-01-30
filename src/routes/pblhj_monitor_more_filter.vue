@@ -9,33 +9,66 @@
 .p-l {
   padding-left: 0.75em;
 }
+.m-r {
+  margin-right: 1em;
+}
 </style>
 
 <template>
-<div class="p-y">
+  <div class="p-y">
     <div class="padding" v-show="list.length">
-        <table class="table table-hover table-condensed">
-            <tbody>
-            <tr v-for="i in list">
-              <td><span class="p-r">温度最大值: </span><span class="text-danger" v-text="maxTemp"></span></td>
-              <td><span class="p-r">温度最小值: </span><span class="text-danger" v-text="minTemp"></span></td>
-              <td><span class="p-r">压力最大值: </span><span class="text-danger" v-text="maxPress"></span></td>
-              <td><span class="p-r">压力最小值: </span><span class="text-danger" v-text="minPress"></span></td>
-              <td><span class="p-r">升温时间: </span><span class="text-danger" v-text="swTime"></span></td>
-              <td><span class="p-r">开始时间: </span><span class="text-danger" v-text="startTimeData"></span></td>
-              <td><span class="p-r">结束时间: </span><span class="text-danger" v-text="endTimeData"></span></td>
-              <td><span class="p-r">硫化时间显示: </span><span class="text-danger" v-text="timeDelta+'分钟'"></span></td>
-            </tr>
-            </tbody>
-        </table>
+      <table class="table table-hover table-condensed" v-for="i in list" table-layout="fixed">
+        <thead>
+          <th>温度最大值</th>
+          <th>温度最小值</th>
+          <th>压力最大值</th>
+          <th>压力最小值</th>
+          <th>升温开始时间</th>
+          <th>升温时间</th>
+          <th>硫化开始时间</th>
+          <th>硫化结束时间</th>
+          <th>硫化时间</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <span class="text-danger m-r" v-text="maxBdkzTemp"></span>
+            </td>
+            <td>
+              <span class="text-danger" v-text="minBdkzTemp"></span>
+            </td>
+            <td>
+              <span class="text-danger m-r" v-text="maxBdkzPress"></span>
+            </td>
+            <td>
+              <span class="text-danger" v-text="minBdkzPress"></span>
+            </td>
+            <td>
+              <span class="text-danger" v-text="startTimeData"></span>
+            </td>
+            <td>
+              <span class="text-danger" v-text="swTime+' S'"></span>
+            </td>
+            <td>
+              <span class="text-danger m-r" v-text="startTimeBdkzData"></span>
+            </td>
+            <td>
+              <span class="text-danger" v-text="endTimeBdkzData"></span>
+            </td>
+            <td>
+              <span class="text-danger" v-text="timeBdkzDelta"></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div :style="{zIndex:showChart?100:-1000,position:'relative'}" class="" >
-        <div :class="'lhjmain '+'lhjmain'+no" :id="'lhjmain-wd'+no" style="height:110px;" ></div>
+    <div :style="{zIndex:showChart?100:-1000,position:'relative'}" class="">
+      <div :class="'lhjmain '+'lhjmain'+no" :id="'lhjmain-wd'+no" style="height:100px;"></div>
     </div>
-    <div :style="{zIndex:showChart?100:-1000,position:'relative'}" class="" >
-        <div :class="'lhjmain '+'lhjmain'+no" :id="'lhjmain-lhyl'+no" style="height:110px;" ></div>
-    </div>  
-</div>
+    <div :style="{zIndex:showChart?100:-1000,position:'relative'}" class="">
+      <div :class="'lhjmain '+'lhjmain'+no" :id="'lhjmain-lhyl'+no" style="height:100px;"></div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -64,8 +97,88 @@ let OrglinesTpl = [
 ];
 
 export default {
-  props: ["no"],
+  props: ["no", "bdkz"],
   methods: {
+    fetchBdkzData(_lines, data) {
+      let result = {};
+
+      let _this = this;
+      _this.maxBdkzTemp = null;
+      _this.minBdkzTemp = null;
+      _this.maxBdkzPress = null;
+      _this.minBdkzPress = null;
+      _this.startTimeBdkzData = null;
+      _this.endTimeBdkzData = null;
+
+      let flag = false;
+      let bdkzData = data.filter(item => {
+        if (!flag && item.bdkz) {
+          flag = true;
+        } else if (flag && !item.bdkz) {
+          flag = false;
+        }
+
+        return flag;
+      });
+
+      let timeData = convertXAxis(bdkzData);
+      _this.startTimeBdkzData = head(timeData);
+      _this.endTimeBdkzData = last(timeData);
+      if (_this.startTimeBdkzData && _this.endTimeBdkzData) {
+        let _timeDelta =
+          moment(_this.endTimeBdkzData) - moment(_this.startTimeBdkzData);
+        let _minDelta = parseInt(_timeDelta / 1000 / 60);
+        let _secDelta = parseInt((_timeDelta / 1000) % 60);
+        if (_secDelta >= 30) {
+          _minDelta += 1;
+        }
+        _this.timeBdkzDelta = `${_minDelta}分钟`;
+      }
+
+      function getDataListByKeys(data, list) {
+        let result = {};
+        list.forEach(v => {
+          result[v.key] = {
+            data: [],
+            key: v.key
+          };
+          data.forEach(item => {
+            let value = item[v.key];
+            result[v.key].data.push(value);
+          });
+        });
+        return result;
+      }
+
+      _lines.forEach((line, index) => {
+        let lines = [line];
+        let preSeriesData = getDataListByKeys(bdkzData, lines);
+        let series = Object.keys(preSeriesData).map(v => preSeriesData[v]);
+        series.forEach(items => {
+          if (line.key == "lhyl") {
+            if ((items.data || []).length) {
+              _this.maxBdkzPress = Math.max(
+                Math.max(...items.data),
+                _this.maxBdkzPress || head(items.data)
+              );
+              _this.minBdkzPress = Math.min(
+                Math.min(...items.data),
+                _this.minBdkzPress || head(items.data)
+              );
+            }
+          } else {
+            _this.maxBdkzTemp = Math.max(
+              Math.max(...items.data),
+              _this.maxBdkzTemp || head(items.data)
+            );
+            _this.minBdkzTemp = Math.min(
+              Math.min(...items.data),
+              _this.minBdkzTemp || head(items.data)
+            );
+          }
+        });
+      });
+    },
     hideCharts() {
       let nodes = document.getElementsByClassName("lhjmain" + this.no);
       for (let i = 0; i < nodes.length; i++) {
@@ -93,27 +206,45 @@ export default {
         item.showLoading();
       });
     },
-    init(params) {
+    init(params, allFlag) {
       let _this = this;
       this.mId = params.mId;
       this.mould = params.mould;
 
-      if (!this.mId) {
+      if (this.mId == null) {
         notify.error("请输入模次号");
         return;
       }
+
+      this.list = [];
+      this.maxTemp = null;
+      this.minTemp = null;
+      this.maxPress = null;
+      this.minPress = null;
+      this.swTime = null;
+      this.startTimeData = null;
+      this.endTimeData = null;
+      this.timeDelta = null;
 
       this.$http.post("/api/pblhjmonitorfilter/mid", params).then(res => {
         if (!res) return;
 
         var data = res.data;
         if (!data.length) {
-          notify.error(`没有查询到模次号为${this.mId}的结果`);
+          if (!allFlag) {
+            notify.error(`没有查询到模次号为${this.mId}的结果`);
+          }
           _this.showChart = false;
           this.hideCharts();
           return;
         } else {
           _this.showChart = true;
+        }
+
+        if (this.bdkz) {
+          data = data.filter(item => {
+            return item.bdkz && item.bdkz > 0;
+          });
         }
 
         let linesTpl = JSON.parse(JSON.stringify(OrglinesTpl));
@@ -153,18 +284,26 @@ export default {
           chartNames.unshift("lhjmain-wd" + this.no);
         }
 
-        this.initChart(chartNames);
+        if (!this.bdkz) {
+          this.initChart(chartNames);
+        }
 
         let timeData = convertXAxis(data);
         let last_data = last(data);
         _this.list = [last_data];
 
-        _this.swTime = last_data.swsssj;
+        _this.swTime =last_data.swsssj; //last_data && last_data.swsssj;
         _this.startTimeData = head(timeData);
         _this.endTimeData = last(timeData);
 
-        _this.timeDelta =
-          (moment(_this.endTimeData) - moment(_this.startTimeData)) / 1000 / 60;
+        let _timeDelta =
+          moment(_this.endTimeData) - moment(_this.startTimeData);
+        let _minDelta = parseInt(_timeDelta / 1000 / 60);
+        let _secDelta = parseInt((_timeDelta / 1000) % 60);
+        if (_secDelta >= 30) {
+          _minDelta += 1;
+        }
+        _this.timeDelta = `${_minDelta}分钟`;
 
         _lines.forEach((line, index) => {
           line.name = `模次号:${this.mId}-${line.name}`;
@@ -173,14 +312,16 @@ export default {
           let series = Object.keys(preSeriesData).map(v => preSeriesData[v]);
           series.forEach(items => {
             if (line.key == "lhyl") {
-              _this.maxPress = Math.max(
-                Math.max(...items.data),
-                _this.maxPress || head(items.data)
-              );
-              _this.minPress = Math.min(
-                Math.min(...items.data),
-                _this.minPress || head(items.data)
-              );
+              if ((items.data || []).length) {
+                _this.maxPress = Math.max(
+                  Math.max(...items.data),
+                  _this.maxPress || head(items.data)
+                );
+                _this.minPress = Math.min(
+                  Math.min(...items.data),
+                  _this.minPress || head(items.data)
+                );
+              }
             } else {
               let _maxTemp = Math.max(...items.data);
               let _minTemp = Math.min(...items.data);
@@ -195,6 +336,8 @@ export default {
             }
           });
 
+          this.fetchBdkzData(_lines, data);
+
           let gridLeft = "3%";
           let yAxis = {
             type: "value",
@@ -204,7 +347,7 @@ export default {
           };
 
           if (line.key !== "lhyl") {
-            // gridLeft = "-6%";
+            gridLeft = "2.5%";
             yAxis.max = _this.maxTemp + 2;
             yAxis.min = _this.minTemp - 5;
           }
@@ -224,7 +367,7 @@ export default {
             grid: {
               left: gridLeft,
               right: "3%",
-              top: "20%",
+              top: "28%",
               bottom: "1%",
               containLabel: true
             },
@@ -275,7 +418,15 @@ export default {
       minPress: null,
       swTime: null,
       startTimeData: null,
-      endTimeData: null
+      endTimeData: null,
+
+      maxBdkzTemp: null,
+      minBdkzTemp: null,
+      maxBdkzPress: null,
+      minBdkzPress: null,
+      startTimeBdkzData: null,
+      endTimeBdkzData: null,
+      timeBdkzDelta: null
     };
   }
 };
